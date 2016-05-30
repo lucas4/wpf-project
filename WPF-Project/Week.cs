@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WPF_Project
 {
-    class Week
+    public class Week
     {
         //public string[] day { get; set; }
         public Day[] day { get; set; }

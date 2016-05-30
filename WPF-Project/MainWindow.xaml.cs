@@ -23,30 +23,39 @@ namespace WPF_Project
     public partial class MainWindow : Window
     {
         //static List<Month> monthsList;
-        static Dictionary<int, Month> monthsDict;
+        static Dictionary<int, Year> yearsDict;
+
+        static Year actualYearSelected;
         static Month actualMonthSelected;
         static Day actualDaySelected;
 
         public MainWindow()
         {
             InitializeComponent();
-            monthsDict = new Dictionary<int, Month>();
+            yearsDict = new Dictionary<int, Year>();
             dat.SelectionMode = DataGridSelectionMode.Single;
 
-           DateTime todays = DateTime.Now;
-           Month month = generateMonth(todays.Year, todays.Month);
-           actualDaySelected = month.getDay(todays.Day);
+            DateTime todays = DateTime.Now;
+            Month month = generateMonth(todays.Year, todays.Month);
 
-           monthsDict.Add(todays.Month, month);
-           MonthBlock.Text = month.MonthNames[month.MonthID] + " " + month.MonthYear;
-           dat.ItemsSource = month.Weeks;
-           actualMonthSelected = month;
+            actualDaySelected = month.getDay(todays.Day);
+            actualMonthSelected = month;
+            actualYearSelected = new Year();
+            actualYearSelected.YearID = todays.Year;
 
+            yearsDict.Add(todays.Year, actualYearSelected);
+            yearsDict[actualYearSelected.YearID].monthsDict.Add(todays.Month, month);
+
+            MonthBlock.Text = month.MonthNames[month.MonthID] + " " + month.MonthYear;
+            dat.ItemsSource = month.Weeks;
+            
+            
         }
 
         private void dat_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
-            try {
+            try
+            {
                 actualDaySelected.notes = DayNotes.Text;
 
                 Week week = (Week)dat.SelectedCells[0].Item;
@@ -55,8 +64,6 @@ namespace WPF_Project
                 actualDaySelected = selectedDay;
                 DayNotes.Text = selectedDay.notes;
             } catch { }
-
-
         }
 
         private Month generateMonth(int yearId, int monthId)
@@ -75,13 +82,6 @@ namespace WPF_Project
                     int dayOfWeek = (dt.DayOfWeek == DayOfWeek.Sunday) ? 6 : (int)dt.DayOfWeek - 1;
                     w.day[dayOfWeek] = new Day();
                     w.day[dayOfWeek].date = dt;
-
-                    //if (w.day[dayOfWeek].date.Day == 9 || w.day[dayOfWeek].date.Day == 19)
-                    //{
-                    //    w.day[dayOfWeek].notes = new List<string>();
-                    //    w.day[dayOfWeek].notes.Add("fwafwa");
-                    //    w.day[dayOfWeek].notes.Add("fwafwa");
-                    //}
 
                     if (dt.DayOfWeek == DayOfWeek.Sunday || DaysCount == DaysTotal)
                     {
@@ -103,46 +103,123 @@ namespace WPF_Project
 
         private void PreviousMonthButton_Click(object sender, RoutedEventArgs e)
         {
-
-            if (!monthsDict.ContainsKey(actualMonthSelected.MonthID - 1))
+            Year searchedYear;
+            Month searchMonth;
+            if ((actualMonthSelected.MonthID - 1) < 1)
             {
-                Month newMonth = generateMonth(actualMonthSelected.MonthYear, actualMonthSelected.MonthID - 1);
-                monthsDict.Add(actualMonthSelected.MonthID - 1, newMonth);
-                dat.ItemsSource = newMonth.Weeks;
-                actualMonthSelected = newMonth;
-                MonthBlock.Text = newMonth.MonthNames[newMonth.MonthID] + " " + newMonth.MonthYear;
+                if (!yearsDict.ContainsKey(actualYearSelected.YearID - 1))
+                {
+                    searchedYear = new Year();
+                    searchedYear.YearID = actualYearSelected.YearID - 1;
+                    yearsDict.Add(searchedYear.YearID, searchedYear);
+                }
+                else
+                    searchedYear = yearsDict[actualYearSelected.YearID - 1];
             }
             else
             {
-                Month monthTemp = monthsDict[actualMonthSelected.MonthID - 1];
-                dat.ItemsSource = monthTemp.Weeks;
-                MonthBlock.Text = monthTemp.MonthNames[monthTemp.MonthID] + " " + monthTemp.MonthYear;
-                actualMonthSelected = monthTemp;
+                if (!yearsDict.ContainsKey(actualYearSelected.YearID))
+                {
+                    searchedYear = new Year();
+                    searchedYear.YearID = actualYearSelected.YearID;
+                    yearsDict.Add(searchedYear.YearID, searchedYear);
+                }
+                else
+                    searchedYear = yearsDict[actualYearSelected.YearID];
             }
+
+
+            if ((actualMonthSelected.MonthID - 1) < 1)
+            {
+                if (!yearsDict[searchedYear.YearID].monthsDict.ContainsKey(12))
+                {
+                    searchMonth = generateMonth(searchedYear.YearID, 12);
+                    yearsDict[searchedYear.YearID].monthsDict.Add(searchMonth.MonthID, searchMonth);
+                }
+                else
+                {
+                    searchMonth = searchedYear.monthsDict[12];
+                }
+            }
+            else
+            {
+                if (!yearsDict[searchedYear.YearID].monthsDict.ContainsKey(actualMonthSelected.MonthID - 1))
+                {
+                    searchMonth = generateMonth(searchedYear.YearID, actualMonthSelected.MonthID - 1);
+                    yearsDict[searchedYear.YearID].monthsDict.Add(searchMonth.MonthID, searchMonth);
+                }
+                else
+                {
+                    searchMonth = searchedYear.monthsDict[actualMonthSelected.MonthID - 1];
+                }
+            }
+
+            dat.ItemsSource = searchMonth.Weeks;
+            actualMonthSelected = searchMonth;
+            actualYearSelected = searchedYear;
+            MonthBlock.Text = actualMonthSelected.MonthNames[actualMonthSelected.MonthID] + " " + actualYearSelected.YearID;
         }
 
         private void NextMonthButton_Click(object sender, RoutedEventArgs e)
         {
-
-            if (!monthsDict.ContainsKey(actualMonthSelected.MonthID + 1)) 
+            Year searchedYear;
+            Month searchMonth;
+            if ((actualMonthSelected.MonthID + 1) > 12)
             {
-                Month newMonth = generateMonth(actualMonthSelected.MonthYear, actualMonthSelected.MonthID + 1);
-                monthsDict.Add(actualMonthSelected.MonthID + 1, newMonth);
-                dat.ItemsSource = newMonth.Weeks;
-                actualMonthSelected = newMonth;
-                MonthBlock.Text = newMonth.MonthNames[newMonth.MonthID] + " " + newMonth.MonthYear;
+                if (!yearsDict.ContainsKey(actualYearSelected.YearID + 1))
+                {
+                    searchedYear = new Year();
+                    searchedYear.YearID = actualYearSelected.YearID + 1;
+                    yearsDict.Add(searchedYear.YearID, searchedYear);
+                }
+                else
+                    searchedYear = yearsDict[actualYearSelected.YearID + 1];
             }
             else
             {
-                Month monthTemp = monthsDict[actualMonthSelected.MonthID + 1];
-                dat.ItemsSource = monthTemp.Weeks;
-                MonthBlock.Text = monthTemp.MonthNames[monthTemp.MonthID] + " " + monthTemp.MonthYear;
-                actualMonthSelected = monthTemp;
+                if (!yearsDict.ContainsKey(actualYearSelected.YearID))
+                {
+                    searchedYear = new Year();
+                    searchedYear.YearID = actualYearSelected.YearID;
+                    yearsDict.Add(searchedYear.YearID, searchedYear);
+                }
+                else
+                    searchedYear = yearsDict[actualYearSelected.YearID];
             }
 
+
+            if ((actualMonthSelected.MonthID + 1) > 12)
+            {
+                if (!yearsDict[searchedYear.YearID].monthsDict.ContainsKey(1))
+                {
+                    searchMonth = generateMonth(searchedYear.YearID, 1);
+                    yearsDict[searchedYear.YearID].monthsDict.Add(searchMonth.MonthID, searchMonth);
+                }
+                else
+                {
+                    searchMonth = searchedYear.monthsDict[1];
+                }
+            }
+            else
+            {
+                if (!yearsDict[searchedYear.YearID].monthsDict.ContainsKey(actualMonthSelected.MonthID + 1))
+                {
+                    searchMonth = generateMonth(searchedYear.YearID, actualMonthSelected.MonthID + 1);
+                    yearsDict[searchedYear.YearID].monthsDict.Add(searchMonth.MonthID, searchMonth);
+                }
+                else
+                {
+                    searchMonth = searchedYear.monthsDict[actualMonthSelected.MonthID + 1];
+                }
+            }
+
+            dat.ItemsSource = searchMonth.Weeks;
+            actualMonthSelected = searchMonth;
+            actualYearSelected = searchedYear;
+            MonthBlock.Text = actualMonthSelected.MonthNames[actualMonthSelected.MonthID] + " " + actualYearSelected.YearID;
+            
         }
     }
-
 
 
     

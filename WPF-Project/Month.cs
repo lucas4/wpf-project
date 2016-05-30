@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WPF_Project
 {
-    class Month
+    public class Month
     {
         public Dictionary<int, string> MonthNames = new Dictionary<int, string> 
         { 

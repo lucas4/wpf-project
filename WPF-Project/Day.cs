@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace WPF_Project
 {
-    class Day
+    public class Day
     {
         public DateTime date { get; set; }
 
         public String notes { get; set; }
 
         public bool hasNotes { get; set; }
-        public Day() { hasNotes = true; }
+        public Day() { hasNotes = false; }
     }
 }
