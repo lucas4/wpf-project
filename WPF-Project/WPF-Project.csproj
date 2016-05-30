@@ -55,10 +55,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddNoteDlg.xaml.cs">
+      <DependentUpon>AddNoteDlg.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddEventDlg.xaml.cs">
+      <DependentUpon>AddEventDlg.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EventDay.cs" />
     <Compile Include="Month.cs" />
+    <Compile Include="Note.cs" />
     <Compile Include="Week.cs" />
     <Compile Include="Year.cs" />
+    <Page Include="AddNoteDlg.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="AddEventDlg.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Assets\Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

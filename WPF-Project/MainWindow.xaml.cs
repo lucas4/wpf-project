@@ -236,14 +236,14 @@ namespace WPF_Project
             var day = week.day[index];
             if (day != null)
             {
-                // create modal window and add events to list
                 AddEventDlg dlg = new AddEventDlg();
+                dlg.DateText = day.date.ToShortDateString();
                 if (dlg.ShowDialog() == true)
                 {
+                    eventList.Add(new EventDay(day.date, dlg.TitleText, dlg.DescriptionText));
                     day.hasEvents = true;
                     dat.Items.Refresh();
                 }
-                
             }
         }
         private void AddNote_Click(object sender, RoutedEventArgs e)
@@ -257,7 +257,6 @@ namespace WPF_Project
             var day = week.day[index];
             if (day != null)
             {
-                // create modal window and add events to list
                 AddNoteDlg dlg = new AddNoteDlg();
                 if (dlg.ShowDialog() == true)
                 {
