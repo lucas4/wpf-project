@@ -57,6 +57,14 @@ namespace WPF_Project
                     int dayOfWeek = (dt.DayOfWeek == DayOfWeek.Sunday) ? 6 : (int)dt.DayOfWeek - 1;
                     w.day[dayOfWeek] = new Day();
                     w.day[dayOfWeek].date = dt;
+
+                    if (w.day[dayOfWeek].date.Day == 9 || w.day[dayOfWeek].date.Day == 19)
+                    {
+                        w.day[dayOfWeek].notes = new List<string>();
+                        w.day[dayOfWeek].notes.Add("fwafwa");
+                        w.day[dayOfWeek].notes.Add("fwafwa");
+                    }
+
                     if (dt.DayOfWeek == DayOfWeek.Sunday || DaysCount == DaysTotal)
                     {
                         weeks.Add(w);

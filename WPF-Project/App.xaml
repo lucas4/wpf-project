@@ -6,6 +6,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <local:todayConverter x:Key="todayConverter"></local:todayConverter>
+            <local:notesButtonConverter x:Key="notesButtonConverter"></local:notesButtonConverter>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Assets/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
