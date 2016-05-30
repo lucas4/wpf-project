@@ -28,6 +28,23 @@ namespace WPF_Project
         public int MonthYear { get; set; }
         public String Name { get; set; }
         public List<Week> Weeks { get; set; }
+        
+        public Day getDay(int dayNum)
+        {
+            foreach (var week in Weeks)
+            {
+                foreach (var day in week.day)
+                {
+                    if(day != null)
+                    {
+                        if (day.date.Day == dayNum)
+                            return day;
+                    }
+                }
+            }
+
+            return new Day();
+        }
     }
 
     

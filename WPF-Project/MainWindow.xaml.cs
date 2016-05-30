@@ -22,20 +22,22 @@ namespace WPF_Project
     /// </summary>
     public partial class MainWindow : Window
     {
-        static List<Month> monthsList;
+        //static List<Month> monthsList;
+        static Dictionary<int, Month> monthsDict;
         static Month actualMonthSelected;
         static Day actualDaySelected;
 
         public MainWindow()
         {
             InitializeComponent();
+            monthsDict = new Dictionary<int, Month>();
             dat.SelectionMode = DataGridSelectionMode.Single;
-            monthsList = new List<Month>();
 
            DateTime todays = DateTime.Now;
            Month month = generateMonth(todays.Year, todays.Month);
-           
-           monthsList.Add(month);
+           actualDaySelected = month.getDay(todays.Day);
+
+           monthsDict.Add(todays.Month, month);
            MonthBlock.Text = month.MonthNames[month.MonthID] + " " + month.MonthYear;
            dat.ItemsSource = month.Weeks;
            actualMonthSelected = month;
@@ -72,10 +74,6 @@ namespace WPF_Project
                     int dayOfWeek = (dt.DayOfWeek == DayOfWeek.Sunday) ? 6 : (int)dt.DayOfWeek - 1;
                     w.day[dayOfWeek] = new Day();
                     w.day[dayOfWeek].date = dt;
-                    if (dt == DateTime.Today)
-                    {
-                        actualDaySelected = w.day[dayOfWeek];
-                    }
                     if (dt.DayOfWeek == DayOfWeek.Sunday || DaysCount == DaysTotal)
                     {
                         weeks.Add(w);
@@ -97,43 +95,41 @@ namespace WPF_Project
         private void PreviousMonthButton_Click(object sender, RoutedEventArgs e)
         {
 
-            foreach (var month in monthsList)
+            if (!monthsDict.ContainsKey(actualMonthSelected.MonthID - 1))
             {
-                if (month.MonthID == actualMonthSelected.MonthID-1)
-                {
-                    dat.ItemsSource = month.Weeks;
-                    MonthBlock.Text = month.MonthNames[month.MonthID] + " " + month.MonthYear;
-                    actualMonthSelected = month;
-                    return;
-                }
+                Month newMonth = generateMonth(actualMonthSelected.MonthYear, actualMonthSelected.MonthID - 1);
+                monthsDict.Add(actualMonthSelected.MonthID - 1, newMonth);
+                dat.ItemsSource = newMonth.Weeks;
+                actualMonthSelected = newMonth;
+                MonthBlock.Text = newMonth.MonthNames[newMonth.MonthID] + " " + newMonth.MonthYear;
             }
-            Month newMonth = generateMonth(actualMonthSelected.MonthYear, actualMonthSelected.MonthID - 1);
-            monthsList.Add(newMonth);
-            dat.ItemsSource = newMonth.Weeks;
-            actualMonthSelected = newMonth;
-            MonthBlock.Text = newMonth.MonthNames[newMonth.MonthID] + " " + newMonth.MonthYear;
-
-
-
+            else
+            {
+                Month monthTemp = monthsDict[actualMonthSelected.MonthID - 1];
+                dat.ItemsSource = monthTemp.Weeks;
+                MonthBlock.Text = monthTemp.MonthNames[monthTemp.MonthID] + " " + monthTemp.MonthYear;
+                actualMonthSelected = monthTemp;
+            }
         }
 
         private void NextMonthButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var month in monthsList)
+
+            if (!monthsDict.ContainsKey(actualMonthSelected.MonthID + 1)) 
             {
-                if (month.MonthID == actualMonthSelected.MonthID +1)
-                {
-                    dat.ItemsSource = month.Weeks;
-                    MonthBlock.Text = month.MonthNames[month.MonthID] + " " + month.MonthYear;
-                    actualMonthSelected = month;
-                    return;
-                }
+                Month newMonth = generateMonth(actualMonthSelected.MonthYear, actualMonthSelected.MonthID + 1);
+                monthsDict.Add(actualMonthSelected.MonthID + 1, newMonth);
+                dat.ItemsSource = newMonth.Weeks;
+                actualMonthSelected = newMonth;
+                MonthBlock.Text = newMonth.MonthNames[newMonth.MonthID] + " " + newMonth.MonthYear;
             }
-            Month newMonth = generateMonth(actualMonthSelected.MonthYear, actualMonthSelected.MonthID +1);
-            monthsList.Add(newMonth);
-            dat.ItemsSource = newMonth.Weeks;
-            actualMonthSelected = newMonth;
-            MonthBlock.Text = newMonth.MonthNames[newMonth.MonthID] + " " + newMonth.MonthYear;
+            else
+            {
+                Month monthTemp = monthsDict[actualMonthSelected.MonthID + 1];
+                dat.ItemsSource = monthTemp.Weeks;
+                MonthBlock.Text = monthTemp.MonthNames[monthTemp.MonthID] + " " + monthTemp.MonthYear;
+                actualMonthSelected = monthTemp;
+            }
 
         }
     }
