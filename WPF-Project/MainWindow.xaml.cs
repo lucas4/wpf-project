@@ -39,15 +39,15 @@ namespace WPF_Project
                     DateTime dt = new DateTime(todays.Year, todays.Month, DaysCount);
                     int dayOfWeek = (dt.DayOfWeek == DayOfWeek.Sunday) ? 6 : (int)dt.DayOfWeek-1;
                     w.day[dayOfWeek] = new Day();
-                    w.day[dayOfWeek].date = dt;
-                    DaysCount++;
-                    if (dt.DayOfWeek == DayOfWeek.Sunday)
+                    w.day[dayOfWeek].date = dt;                  
+                    if (dt.DayOfWeek == DayOfWeek.Sunday || DaysCount == DaysTotal)
                     {
                         dat.Items.Add(w);
                         w = new Week();
                         i = 0;
 
                     }
+                    DaysCount++;
                 }
             }
         }
