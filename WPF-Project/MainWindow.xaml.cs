@@ -81,14 +81,14 @@ namespace WPF_Project
 
         private void PreviousMonthButton_Click(object sender, RoutedEventArgs e)
         {
-            //month.Name = todays.ToString("MMM", CultureInfo.InvariantCulture);
-            //int acutalMonth = Int32.Parse(MonthID.Text);
+
             foreach (var month in monthsList)
             {
-                //if (month.MonthID == acutalMonth-1)
                 if (month.MonthID == actualMonthSelected.MonthID-1)
                 {
                     dat.ItemsSource = month.Weeks;
+                    MonthBlock.Text = month.Name;
+                    actualMonthSelected = month;
                     return;
                 }
             }
@@ -97,14 +97,28 @@ namespace WPF_Project
             dat.ItemsSource = newMonth.Weeks;
             actualMonthSelected = newMonth;
             MonthBlock.Text = newMonth.Name;
-            //Month month = new Month();
-            //month.Weeks = generateMonth(actualMonthSelected.MonthYear, actualMonthSelected.MonthID - 1);
+
 
 
         }
 
         private void NextMonthButton_Click(object sender, RoutedEventArgs e)
         {
+            foreach (var month in monthsList)
+            {
+                if (month.MonthID == actualMonthSelected.MonthID +1)
+                {
+                    dat.ItemsSource = month.Weeks;
+                    MonthBlock.Text = month.Name;
+                    actualMonthSelected = month;
+                    return;
+                }
+            }
+            Month newMonth = generateMonth(actualMonthSelected.MonthYear, actualMonthSelected.MonthID +1);
+            monthsList.Add(newMonth);
+            dat.ItemsSource = newMonth.Weeks;
+            actualMonthSelected = newMonth;
+            MonthBlock.Text = newMonth.Name;
 
         }
     }
