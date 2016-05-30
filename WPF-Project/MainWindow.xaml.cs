@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,50 +25,30 @@ namespace WPF_Project
         public MainWindow()
         {
             InitializeComponent();
+
            DateTime todays = DateTime.Now;
-           DateTime date = new DateTime(todays.Year, todays.Month, 8);
+
            Week w = new Week();
-           Boolean nextWeek = false;
-           Boolean hasDays = true;
-           int dayI = 0;
-            while(hasDays)
+           int DaysTotal = DateTime.DaysInMonth(todays.Year, todays.Month);
+           int DaysCount = 1;
+            for (int i = 0; i <= 7; i++)
             {
-                while(!nextWeek)
+                if (DaysCount <= DaysTotal)
                 {
-                    w.day[dayI] = new Day();
-                    w.day[dayI].date = new DateTime(todays.Year, todays.Month, (dayI + 1));
+
+                    DateTime dt = new DateTime(todays.Year, todays.Month, DaysCount);
+                    int dayOfWeek = (dt.DayOfWeek == DayOfWeek.Sunday) ? 6 : (int)dt.DayOfWeek-1;
+                    w.day[dayOfWeek] = new Day();
+                    w.day[dayOfWeek].date = dt;
+                    DaysCount++;
+                    if (dt.DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        dat.Items.Add(w);
+                        w = new Week();
+                        i = 0;
+                    }
                 }
             }
-            
-            //for (int j = 0; j < 4; j++)
-            //{
-            //    Week w = new Week();
-            //    //for (int i = 1; i < 7; i++)
-            //    //{
-            //    //    w.day[i] = new Day();
-            //    //    //w.day[i] = (i+1) + (j*7) + "";
-            //    //    w.day[i].DayId = (i + 1) + (j * 7);
-            //    //    w.day[i].Name = "test";
-            //    //}
-
-            //    for (int i = 0; i < DateTime.DaysInMonth(todays.Year, todays.Month); i++)
-            //    {
-            //        w.day[i] = new Day();
-            //        w.day[i].date = new DateTime(todays.Year, todays.Month, i + 1);
-            //    }
-            //    //Boolean hasDays = true;
-            //    //int i = 0;
-            //    //while(hasDays)
-            //    //{
-            //    //    w.day[i] = new Day();
-            //    //    w.day[i].date = new DateTime(todays.Year, todays.Month, i +1)
-            //    //}
-            //        dat.Items.Add(w);
-            //}
-            
-            
-
-
         }
 
         private void dat_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
@@ -76,15 +57,6 @@ namespace WPF_Project
         }
     }
 
-    //public class Week
-    //{
-    //    public string[] day { get; set; }
-    //    public Week()
-    //    {
-    //        day = new string[7];
-    //    }
-
-    //}
 
 
     
