@@ -164,11 +164,15 @@
             </DataGrid>
         </StackPanel>
         <Grid Grid.Column="1" Grid.RowSpan="2">
-            <Button>takf afs fas</Button>
+                <StackPanel>
+                    <Button Content="Pokaż notatki" />
+                    <Button Content="Pokaż wydarzenia" />
+                </StackPanel>
+            
         </Grid>
-            <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
-                <TextBox Height="50" Name="DayNotes" AcceptsReturn="True"></TextBox>
-            </StackPanel>
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
+            <TextBox Height="50" Name="DayNotes" AcceptsReturn="True"></TextBox>
+        </StackPanel>
     </Grid>
     </StackPanel>
 </Window>

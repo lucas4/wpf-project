@@ -24,6 +24,7 @@ namespace WPF_Project
     {
         //static List<Month> monthsList;
         static Dictionary<int, Year> yearsDict;
+        static List<EventDay> eventList;
 
         static Year actualYearSelected;
         static Month actualMonthSelected;
@@ -34,6 +35,8 @@ namespace WPF_Project
             InitializeComponent();
             yearsDict = new Dictionary<int, Year>();
             dat.SelectionMode = DataGridSelectionMode.Single;
+
+            eventList = new List<EventDay>();
 
             DateTime todays = DateTime.Now;
             Month month = generateMonth(todays.Year, todays.Month);

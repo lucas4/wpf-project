@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="EventDay.cs" />
     <Compile Include="Month.cs" />
     <Compile Include="Week.cs" />
     <Compile Include="Year.cs" />
