@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -21,18 +22,23 @@ namespace WPF_Project
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<Month> monthsList;
-        Month actualMonthSelected;
+        //static List<Month> monthsList;
+        static Dictionary<int, Month> monthsDict;
+        static Month actualMonthSelected;
+        static Day actualDaySelected;
+
         public MainWindow()
         {
             InitializeComponent();
-            monthsList = new List<Month>();
+            monthsDict = new Dictionary<int, Month>();
+            dat.SelectionMode = DataGridSelectionMode.Single;
 
            DateTime todays = DateTime.Now;
            Month month = generateMonth(todays.Year, todays.Month);
-           
-           monthsList.Add(month);
-           MonthBlock.Text = month.Name;
+           actualDaySelected = month.getDay(todays.Day);
+
+           monthsDict.Add(todays.Month, month);
+           MonthBlock.Text = month.MonthNames[month.MonthID] + " " + month.MonthYear;
            dat.ItemsSource = month.Weeks;
            actualMonthSelected = month;
 
@@ -40,10 +46,19 @@ namespace WPF_Project
 
         private void dat_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
+            try {
+                actualDaySelected.notes = DayNotes.Text;
+
+                Week week = (Week)dat.SelectedCells[0].Item;
+                int index = dat.CurrentCell.Column.DisplayIndex;
+                Day selectedDay = week.day[index];
+                actualDaySelected = selectedDay;
+                DayNotes.Text = selectedDay.notes;
+            } catch { }
+
 
         }
 
-        //private List<Week> generateMonth(int year, int month)
         private Month generateMonth(int yearId, int monthId)
         {
             Month month = new Month();
@@ -61,12 +76,12 @@ namespace WPF_Project
                     w.day[dayOfWeek] = new Day();
                     w.day[dayOfWeek].date = dt;
 
-                    if (w.day[dayOfWeek].date.Day == 9 || w.day[dayOfWeek].date.Day == 19)
-                    {
-                        w.day[dayOfWeek].notes = new List<string>();
-                        w.day[dayOfWeek].notes.Add("fwafwa");
-                        w.day[dayOfWeek].notes.Add("fwafwa");
-                    }
+                    //if (w.day[dayOfWeek].date.Day == 9 || w.day[dayOfWeek].date.Day == 19)
+                    //{
+                    //    w.day[dayOfWeek].notes = new List<string>();
+                    //    w.day[dayOfWeek].notes.Add("fwafwa");
+                    //    w.day[dayOfWeek].notes.Add("fwafwa");
+                    //}
 
                     if (dt.DayOfWeek == DayOfWeek.Sunday || DaysCount == DaysTotal)
                     {
@@ -84,49 +99,46 @@ namespace WPF_Project
             month.Name = date.ToString("MMM", CultureInfo.InvariantCulture);
             month.Weeks = weeks;
             return month;
-            //return weeks;
         }
 
         private void PreviousMonthButton_Click(object sender, RoutedEventArgs e)
         {
 
-            foreach (var month in monthsList)
+            if (!monthsDict.ContainsKey(actualMonthSelected.MonthID - 1))
             {
-                if (month.MonthID == actualMonthSelected.MonthID-1)
-                {
-                    dat.ItemsSource = month.Weeks;
-                    MonthBlock.Text = month.Name;
-                    actualMonthSelected = month;
-                    return;
-                }
+                Month newMonth = generateMonth(actualMonthSelected.MonthYear, actualMonthSelected.MonthID - 1);
+                monthsDict.Add(actualMonthSelected.MonthID - 1, newMonth);
+                dat.ItemsSource = newMonth.Weeks;
+                actualMonthSelected = newMonth;
+                MonthBlock.Text = newMonth.MonthNames[newMonth.MonthID] + " " + newMonth.MonthYear;
             }
-            Month newMonth = generateMonth(actualMonthSelected.MonthYear, actualMonthSelected.MonthID - 1);
-            monthsList.Add(newMonth);
-            dat.ItemsSource = newMonth.Weeks;
-            actualMonthSelected = newMonth;
-            MonthBlock.Text = newMonth.Name;
-
-
-
+            else
+            {
+                Month monthTemp = monthsDict[actualMonthSelected.MonthID - 1];
+                dat.ItemsSource = monthTemp.Weeks;
+                MonthBlock.Text = monthTemp.MonthNames[monthTemp.MonthID] + " " + monthTemp.MonthYear;
+                actualMonthSelected = monthTemp;
+            }
         }
 
         private void NextMonthButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var month in monthsList)
+
+            if (!monthsDict.ContainsKey(actualMonthSelected.MonthID + 1)) 
             {
-                if (month.MonthID == actualMonthSelected.MonthID +1)
-                {
-                    dat.ItemsSource = month.Weeks;
-                    MonthBlock.Text = month.Name;
-                    actualMonthSelected = month;
-                    return;
-                }
+                Month newMonth = generateMonth(actualMonthSelected.MonthYear, actualMonthSelected.MonthID + 1);
+                monthsDict.Add(actualMonthSelected.MonthID + 1, newMonth);
+                dat.ItemsSource = newMonth.Weeks;
+                actualMonthSelected = newMonth;
+                MonthBlock.Text = newMonth.MonthNames[newMonth.MonthID] + " " + newMonth.MonthYear;
             }
-            Month newMonth = generateMonth(actualMonthSelected.MonthYear, actualMonthSelected.MonthID +1);
-            monthsList.Add(newMonth);
-            dat.ItemsSource = newMonth.Weeks;
-            actualMonthSelected = newMonth;
-            MonthBlock.Text = newMonth.Name;
+            else
+            {
+                Month monthTemp = monthsDict[actualMonthSelected.MonthID + 1];
+                dat.ItemsSource = monthTemp.Weeks;
+                MonthBlock.Text = monthTemp.MonthNames[monthTemp.MonthID] + " " + monthTemp.MonthYear;
+                actualMonthSelected = monthTemp;
+            }
 
         }
     }
