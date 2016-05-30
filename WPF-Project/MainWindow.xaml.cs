@@ -46,6 +46,7 @@ namespace WPF_Project
                         dat.Items.Add(w);
                         w = new Week();
                         i = 0;
+
                     }
                 }
             }
