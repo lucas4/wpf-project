@@ -24,9 +24,26 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="dat" Grid.Column="0" ColumnWidth="*" RowHeight="80" CellStyle="{StaticResource MyDataGridCell}" SelectedCellsChanged="dat_SelectedCellsChanged" SelectionUnit="Cell" SelectionMode="Single" IsReadOnly="True" HeadersVisibility="None" GridLinesVisibility="None">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Height="20" Grid.Column="0">Poprzedni miesiąc</Button>
+                <TextBlock Grid.Column="1" Height="20" Text="" Name="MonthBlock"></TextBlock>
+                <Button Height="20" Grid.Column="2">Następny miesiąc</Button>
+            </Grid>
+        </StackPanel>
+        <StackPanel Grid.Row="1">
+        <DataGrid x:Name="dat" Grid.Column="0" ColumnWidth="*" RowHeight="80" CellStyle="{StaticResource MyDataGridCell}" SelectedCellsChanged="dat_SelectedCellsChanged" SelectionUnit="Cell" SelectionMode="Single" IsReadOnly="True" HeadersVisibility="Column" GridLinesVisibility="None">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="monday">
+                <DataGridTemplateColumn Header="Poniedziałek">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[0]}"  >
@@ -36,7 +53,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="tuesday">
+                <DataGridTemplateColumn Header="Wtorek">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[1]}"  >
@@ -46,7 +63,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="wednesday">
+                <DataGridTemplateColumn Header="Środa">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[2]}"  >
@@ -56,7 +73,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="thursday">
+                <DataGridTemplateColumn Header="Czwartek">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[3]}"  >
@@ -66,7 +83,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="friday">
+                <DataGridTemplateColumn Header="Piątek">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[4]}"  >
@@ -76,7 +93,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="saturday">
+                <DataGridTemplateColumn Header="Sobota">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[5]}"  >
@@ -86,7 +103,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="sunday">
+                <DataGridTemplateColumn Header="Niedziela">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[6]}"  >
@@ -95,10 +112,12 @@
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                </DataGridTemplateColumn>             
             </DataGrid.Columns>
+            
         </DataGrid>
-        <Grid Grid.Column="1">
+        </StackPanel>
+        <Grid Grid.Column="1" Grid.RowSpan="2">
             <Button>takf afs fas</Button>
         </Grid>
     </Grid>

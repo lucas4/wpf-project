@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Month.cs" />
     <Compile Include="Week.cs" />
     <Page Include="Assets\Styles.xaml">
       <SubType>Designer</SubType>

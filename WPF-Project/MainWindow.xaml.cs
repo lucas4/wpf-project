@@ -27,6 +27,10 @@ namespace WPF_Project
             InitializeComponent();
             
            DateTime todays = DateTime.Now;
+           Month month = new Month();
+           month.Weeks = generateMonth(todays.Year, todays.Month);
+           month.Name = todays.ToString("MMM", CultureInfo.InvariantCulture);
+           MonthBlock.Text = month.Name;
            foreach(var week in generateMonth(todays.Year, todays.Month))
            {
                dat.Items.Add(week);
@@ -58,7 +62,6 @@ namespace WPF_Project
                         weeks.Add(w);
                         w = new Week();
                         i = 0;
-
                     }
                     DaysCount++;
                 }
