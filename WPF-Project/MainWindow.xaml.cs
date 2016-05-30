@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -21,18 +22,21 @@ namespace WPF_Project
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<Month> monthsList;
-        Month actualMonthSelected;
+        static List<Month> monthsList;
+        static Month actualMonthSelected;
+        static Day actualDaySelected;
+
         public MainWindow()
         {
             InitializeComponent();
+            dat.SelectionMode = DataGridSelectionMode.Single;
             monthsList = new List<Month>();
 
            DateTime todays = DateTime.Now;
            Month month = generateMonth(todays.Year, todays.Month);
            
            monthsList.Add(month);
-           MonthBlock.Text = month.Name;
+           MonthBlock.Text = month.MonthNames[month.MonthID] + " " + month.MonthYear;
            dat.ItemsSource = month.Weeks;
            actualMonthSelected = month;
 
@@ -40,10 +44,18 @@ namespace WPF_Project
 
         private void dat_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
+            actualDaySelected.notes = DayNotes.Text;
+
+            Week week = (Week)dat.SelectedCells[0].Item;     
+            int index = dat.CurrentCell.Column.DisplayIndex;
+            Day selectedDay = week.day[index];
+            actualDaySelected = selectedDay;
+            DayNotes.Text = selectedDay.notes;
+
+
 
         }
 
-        //private List<Week> generateMonth(int year, int month)
         private Month generateMonth(int yearId, int monthId)
         {
             Month month = new Month();
@@ -60,6 +72,10 @@ namespace WPF_Project
                     int dayOfWeek = (dt.DayOfWeek == DayOfWeek.Sunday) ? 6 : (int)dt.DayOfWeek - 1;
                     w.day[dayOfWeek] = new Day();
                     w.day[dayOfWeek].date = dt;
+                    if (dt == DateTime.Today)
+                    {
+                        actualDaySelected = w.day[dayOfWeek];
+                    }
                     if (dt.DayOfWeek == DayOfWeek.Sunday || DaysCount == DaysTotal)
                     {
                         weeks.Add(w);
@@ -76,7 +92,6 @@ namespace WPF_Project
             month.Name = date.ToString("MMM", CultureInfo.InvariantCulture);
             month.Weeks = weeks;
             return month;
-            //return weeks;
         }
 
         private void PreviousMonthButton_Click(object sender, RoutedEventArgs e)
@@ -87,7 +102,7 @@ namespace WPF_Project
                 if (month.MonthID == actualMonthSelected.MonthID-1)
                 {
                     dat.ItemsSource = month.Weeks;
-                    MonthBlock.Text = month.Name;
+                    MonthBlock.Text = month.MonthNames[month.MonthID] + " " + month.MonthYear;
                     actualMonthSelected = month;
                     return;
                 }
@@ -96,7 +111,7 @@ namespace WPF_Project
             monthsList.Add(newMonth);
             dat.ItemsSource = newMonth.Weeks;
             actualMonthSelected = newMonth;
-            MonthBlock.Text = newMonth.Name;
+            MonthBlock.Text = newMonth.MonthNames[newMonth.MonthID] + " " + newMonth.MonthYear;
 
 
 
@@ -109,7 +124,7 @@ namespace WPF_Project
                 if (month.MonthID == actualMonthSelected.MonthID +1)
                 {
                     dat.ItemsSource = month.Weeks;
-                    MonthBlock.Text = month.Name;
+                    MonthBlock.Text = month.MonthNames[month.MonthID] + " " + month.MonthYear;
                     actualMonthSelected = month;
                     return;
                 }
@@ -118,7 +133,7 @@ namespace WPF_Project
             monthsList.Add(newMonth);
             dat.ItemsSource = newMonth.Weeks;
             actualMonthSelected = newMonth;
-            MonthBlock.Text = newMonth.Name;
+            MonthBlock.Text = newMonth.MonthNames[newMonth.MonthID] + " " + newMonth.MonthYear;
 
         }
     }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_Project"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="800">
+        Title="MainWindow" Height="650" Width="800">
     <Window.Resources>
     <Style x:Key="StackPanelStyle1" TargetType="{x:Type StackPanel}">
         <Setter Property="StackPanel.Background" Value="Transparent" />
@@ -19,106 +19,111 @@
             </Style.Triggers>
     </Style>
     </Window.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="auto" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Button Height="20" Grid.Column="0" Name="PreviousMonthButton" Click="PreviousMonthButton_Click">Poprzedni miesiąc</Button>
-                <TextBlock Grid.Column="1" Height="20" Text="" Name="MonthBlock"></TextBlock>
-                <Button Height="20" Grid.Column="2" Name="NextMonthButton" Click="NextMonthButton_Click">Następny miesiąc</Button>
+    <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Height="20" Grid.Column="0" Name="PreviousMonthButton" Click="PreviousMonthButton_Click">Poprzedni miesiąc</Button>
+                    <TextBlock Grid.Column="1" Height="20" Text="" Name="MonthBlock"></TextBlock>
+                    <Button Height="20" Grid.Column="2" Name="NextMonthButton" Click="NextMonthButton_Click">Następny miesiąc</Button>
+                </Grid>
+            </StackPanel>
+            <StackPanel Grid.Row="1">
+                <DataGrid x:Name="dat" AutoGenerateColumns="False" Grid.Column="0" ColumnWidth="*" RowHeight="80" CellStyle="{StaticResource MyDataGridCell}" SelectedCellsChanged="dat_SelectedCellsChanged" SelectionUnit="Cell" SelectionMode="Single" IsReadOnly="True" HeadersVisibility="Column" GridLinesVisibility="None">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Poniedziałek">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[0]}"  >
+                                        <TextBlock Text="{Binding Path=day[0].date.Day}" />
+                                        <TextBlock Text="jakiś tekst" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Wtorek">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[1]}"  >
+                                        <TextBlock Text="{Binding Path=day[1].date.Day}" />
+                                        <TextBlock Text="jakiś tekst" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Środa">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[2]}"  >
+                                        <TextBlock Text="{Binding Path=day[2].date.Day}" />
+                                        <TextBlock Text="jakiś tekst" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Czwartek">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[3]}"  >
+                                        <TextBlock Text="{Binding Path=day[3].date.Day}" />
+                                        <TextBlock Text="jakiś tekst" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Piątek">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[4]}"  >
+                                        <TextBlock Text="{Binding Path=day[4].date.Day}" />
+                                        <TextBlock Text="jakiś tekst" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Sobota">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[5]}"  >
+                                        <TextBlock Text="{Binding Path=day[5].date.Day}" />
+                                        <TextBlock Text="jakiś tekst" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Niedziela">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[6]}"  >
+                                        <TextBlock Text="{Binding Path=day[6].date.Day}" />
+                                        <TextBlock Text="jakiś tekst" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+            <Grid Grid.Column="1" Grid.RowSpan="2">
+                <Button>takf afs fas</Button>
             </Grid>
-        </StackPanel>
-        <StackPanel Grid.Row="1">
-        <DataGrid x:Name="dat" AutoGenerateColumns="False" Grid.Column="0" ColumnWidth="*" RowHeight="80" CellStyle="{StaticResource MyDataGridCell}" SelectedCellsChanged="dat_SelectedCellsChanged" SelectionUnit="Cell" SelectionMode="Single" IsReadOnly="True" HeadersVisibility="Column" GridLinesVisibility="None">
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Poniedziałek">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[0]}"  >
-                                <TextBlock Text="{Binding Path=day[0].date.Day}" />
-                                <TextBlock Text="jakiś tekst" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Wtorek">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[1]}"  >
-                                <TextBlock Text="{Binding Path=day[1].date.Day}" />
-                                <TextBlock Text="jakiś tekst" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Środa">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[2]}"  >
-                                <TextBlock Text="{Binding Path=day[2].date.Day}" />
-                                <TextBlock Text="jakiś tekst" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Czwartek">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[3]}"  >
-                                <TextBlock Text="{Binding Path=day[3].date.Day}" />
-                                <TextBlock Text="jakiś tekst" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Piątek">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[4]}"  >
-                                <TextBlock Text="{Binding Path=day[4].date.Day}" />
-                                <TextBlock Text="jakiś tekst" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Sobota">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[5]}"  >
-                                <TextBlock Text="{Binding Path=day[5].date.Day}" />
-                                <TextBlock Text="jakiś tekst" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Niedziela">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[6]}"  >
-                                <TextBlock Text="{Binding Path=day[6].date.Day}" />
-                                <TextBlock Text="jakiś tekst" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>             
-            </DataGrid.Columns>
-            
-        </DataGrid>
-        </StackPanel>
-        <Grid Grid.Column="1" Grid.RowSpan="2">
-            <Button>takf afs fas</Button>
+            <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
+                <TextBox Height="50" Name="DayNotes"></TextBox>
+            </StackPanel>
         </Grid>
-    </Grid>
+    </StackPanel>
 </Window>
