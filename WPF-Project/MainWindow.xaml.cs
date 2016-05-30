@@ -25,24 +25,37 @@ namespace WPF_Project
         public MainWindow()
         {
             InitializeComponent();
-
+            
            DateTime todays = DateTime.Now;
+           foreach(var week in generateMonth(todays.Year, todays.Month))
+           {
+               dat.Items.Add(week);
+           }
+        }
 
-           Week w = new Week();
-           int DaysTotal = DateTime.DaysInMonth(todays.Year, todays.Month);
-           int DaysCount = 1;
+        private void dat_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+
+        }
+
+        private List<Week> generateMonth(int year, int month)
+        {
+            List<Week> weeks = new List<Week>();
+            Week w = new Week();
+            int DaysTotal = DateTime.DaysInMonth(year, month);
+            int DaysCount = 1;
             for (int i = 0; i <= 7; i++)
             {
                 if (DaysCount <= DaysTotal)
                 {
 
-                    DateTime dt = new DateTime(todays.Year, todays.Month, DaysCount);
-                    int dayOfWeek = (dt.DayOfWeek == DayOfWeek.Sunday) ? 6 : (int)dt.DayOfWeek-1;
+                    DateTime dt = new DateTime(year, month, DaysCount);
+                    int dayOfWeek = (dt.DayOfWeek == DayOfWeek.Sunday) ? 6 : (int)dt.DayOfWeek - 1;
                     w.day[dayOfWeek] = new Day();
-                    w.day[dayOfWeek].date = dt;                  
+                    w.day[dayOfWeek].date = dt;
                     if (dt.DayOfWeek == DayOfWeek.Sunday || DaysCount == DaysTotal)
                     {
-                        dat.Items.Add(w);
+                        weeks.Add(w);
                         w = new Week();
                         i = 0;
 
@@ -50,11 +63,8 @@ namespace WPF_Project
                     DaysCount++;
                 }
             }
-        }
 
-        private void dat_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
-        {
-
+            return weeks;
         }
     }
 
