@@ -25,6 +25,7 @@ namespace WPF_Project
         //static List<Month> monthsList;
         static Dictionary<int, Year> yearsDict;
         static List<EventDay> eventList;
+        static List<Note> noteList;
 
         static Year actualYearSelected;
         static Month actualMonthSelected;
@@ -37,6 +38,7 @@ namespace WPF_Project
             dat.SelectionMode = DataGridSelectionMode.Single;
 
             eventList = new List<EventDay>();
+            noteList = new List<Note>();
 
             DateTime todays = DateTime.Now;
             Month month = generateMonth(todays.Year, todays.Month);
@@ -235,8 +237,13 @@ namespace WPF_Project
             if (day != null)
             {
                 // create modal window and add events to list
-                day.hasEvents = true;
-                dat.Items.Refresh();
+                AddEventDlg dlg = new AddEventDlg();
+                if (dlg.ShowDialog() == true)
+                {
+                    day.hasEvents = true;
+                    dat.Items.Refresh();
+                }
+                
             }
         }
         private void AddNote_Click(object sender, RoutedEventArgs e)
@@ -251,8 +258,13 @@ namespace WPF_Project
             if (day != null)
             {
                 // create modal window and add events to list
-                day.hasNotes = true;
-                dat.Items.Refresh();
+                AddNoteDlg dlg = new AddNoteDlg();
+                if (dlg.ShowDialog() == true)
+                {
+                    noteList.Add(new Note(day.date, dlg.NoteContent));
+                    day.hasNotes = true;
+                    dat.Items.Refresh();
+                }
             }
         }
     }
