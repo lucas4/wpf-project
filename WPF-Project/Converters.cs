@@ -17,7 +17,7 @@ namespace WPF_Project
             try
             {
                 Day day = (Day)value;
-                if (day.date.Day == DateTime.Today.Day)
+                if (day.date == DateTime.Today)
                     return Days.Today;
                 else
                     return Days.Normal;
