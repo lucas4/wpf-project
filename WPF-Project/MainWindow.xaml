@@ -30,7 +30,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[0]}"  >
-                                <TextBlock Text="{Binding Path=day[0]}" />
+                                <TextBlock Text="{Binding Path=day[0].id}" />
                                 <TextBlock Text="jakiś tekst" />
                             </StackPanel>
                         </DataTemplate>
@@ -40,7 +40,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[1]}"  >
-                                <TextBlock Text="{Binding Path=day[1]}" />
+                                <TextBlock Text="{Binding Path=day[1].id}" />
                                 <TextBlock Text="jakiś tekst" />
                             </StackPanel>
                         </DataTemplate>
@@ -50,7 +50,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[2]}"  >
-                                <TextBlock Text="{Binding Path=day[2]}" />
+                                <TextBlock Text="{Binding Path=day[2].id}" />
                                 <TextBlock Text="jakiś tekst" />
                             </StackPanel>
                         </DataTemplate>
@@ -60,7 +60,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[3]}"  >
-                                <TextBlock Text="{Binding Path=day[3]}" />
+                                <TextBlock Text="{Binding Path=day[3].id}" />
                                 <TextBlock Text="jakiś tekst" />
                             </StackPanel>
                         </DataTemplate>
@@ -70,7 +70,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[4]}"  >
-                                <TextBlock Text="{Binding Path=day[4]}" />
+                                <TextBlock Text="{Binding Path=day[4].id}" />
                                 <TextBlock Text="jakiś tekst" />
                             </StackPanel>
                         </DataTemplate>
@@ -80,7 +80,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[5]}"  >
-                                <TextBlock Text="{Binding Path=day[5]}" />
+                                <TextBlock Text="{Binding Path=day[5].id}" />
                                 <TextBlock Text="jakiś tekst" />
                             </StackPanel>
                         </DataTemplate>
@@ -90,7 +90,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[6]}"  >
-                                <TextBlock Text="{Binding Path=day[6]}" />
+                                <TextBlock Text="{Binding Path=day[6].id}" />
                                 <TextBlock Text="jakiś tekst" />
                             </StackPanel>
                         </DataTemplate>

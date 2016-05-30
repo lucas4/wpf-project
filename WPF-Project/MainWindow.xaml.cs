@@ -29,7 +29,10 @@ namespace WPF_Project
                 Week w = new Week();
                 for (int i = 0; i < 7; i++)
                 {
-                    w.day[i] = (i+1) + (j*7) + "";
+                    w.day[i] = new Day();
+                    //w.day[i] = (i+1) + (j*7) + "";
+                    w.day[i].id = (i + 1) + (j * 7);
+                    w.day[i].Name = "test";
                 }
                 dat.Items.Add(w);
             }
@@ -45,15 +48,15 @@ namespace WPF_Project
         }
     }
 
-    public class Week
-    {
-        public string[] day { get; set; }
-        public Week()
-        {
-            day = new string[7];
-        }
+    //public class Week
+    //{
+    //    public string[] day { get; set; }
+    //    public Week()
+    //    {
+    //        day = new string[7];
+    //    }
 
-    }
+    //}
 
 
     

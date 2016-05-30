@@ -20,7 +20,7 @@ namespace WPF_Project
                 int dValue = Int32.Parse(value.ToString());
                 if (dValue < 5)
                     return Days.Other;
-                else if (dValue == 15) // if its today date 
+                else if (dValue == 16) // if its today date 
                     return Days.Today;
                 else
                     return Days.Normal;
