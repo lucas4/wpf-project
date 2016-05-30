@@ -13,16 +13,11 @@ namespace WPF_Project
         public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (value == null)
-                return Days.Normal;
-            if (parameter == null) // potem ogarnąć
-                parameter = 5;
+                return Days.Other;
             try
             {
-                int month = Int32.Parse(parameter.ToString());
                 Day day = (Day)value;
-                if (day.date.Month != month)
-                    return Days.Other;
-                else if (day.date.Day == DateTime.Today.Day)
+                if (day.date.Day == DateTime.Today.Day)
                     return Days.Today;
                 else
                     return Days.Normal;
