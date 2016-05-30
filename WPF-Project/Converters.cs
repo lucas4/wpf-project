@@ -14,13 +14,15 @@ namespace WPF_Project
         {
             if (value == null)
                 return Days.Normal;
-
+            if (parameter == null) // potem ogarnąć
+                parameter = 5;
             try
             {
-                int dValue = Int32.Parse(value.ToString());
-                if (dValue < 5)
+                int month = Int32.Parse(parameter.ToString());
+                Day day = (Day)value;
+                if (day.date.Month != month)
                     return Days.Other;
-                else if (dValue == 16) // if its today date 
+                else if (day.date.Day == DateTime.Today.Day)
                     return Days.Today;
                 else
                     return Days.Normal;
