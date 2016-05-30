@@ -219,6 +219,39 @@ namespace WPF_Project
             MonthBlock.Text = actualMonthSelected.MonthNames[actualMonthSelected.MonthID] + " " + actualYearSelected.YearID;
             
         }
+
+        private void AddEvent_Click(object sender, RoutedEventArgs e)
+        {
+            var menuItem = (MenuItem)sender;
+            var contextMenu = (ContextMenu)menuItem.Parent;
+            var item = (DataGrid)contextMenu.PlacementTarget;
+            var index = item.CurrentCell.Column.DisplayIndex;
+
+            var week = (Week)item.SelectedCells[0].Item;
+            var day = week.day[index];
+            if (day != null)
+            {
+                // create modal window and add events to list
+                day.hasEvents = true;
+                dat.Items.Refresh();
+            }
+        }
+        private void AddNote_Click(object sender, RoutedEventArgs e)
+        {
+            var menuItem = (MenuItem)sender;
+            var contextMenu = (ContextMenu)menuItem.Parent;
+            var item = (DataGrid)contextMenu.PlacementTarget;
+            var index = item.CurrentCell.Column.DisplayIndex;
+
+            var week = (Week)item.SelectedCells[0].Item;
+            var day = week.day[index];
+            if (day != null)
+            {
+                // create modal window and add events to list
+                day.hasNotes = true;
+                dat.Items.Refresh();
+            }
+        }
     }
 
 

@@ -13,6 +13,7 @@ namespace WPF_Project
         public String notes { get; set; }
 
         public bool hasNotes { get; set; }
-        public Day() { hasNotes = false; }
+        public bool hasEvents { get; set; }
+        public Day() { hasNotes = false; hasEvents = false; }
     }
 }
