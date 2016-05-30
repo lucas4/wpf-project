@@ -70,7 +70,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Style="{DynamicResource StackPanelStyle1}" Tag="{Binding Path=day[4]}"  >
-                                <TextBlock Text="{Binding Path=day[4].date.Dayd}" />
+                                <TextBlock Text="{Binding Path=day[4].date.Day}" />
                                 <TextBlock Text="jakiś tekst" />
                             </StackPanel>
                         </DataTemplate>
