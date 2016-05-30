@@ -19,6 +19,7 @@ namespace WPF_Project
         public DayOfWeek DayName { get; set; }
         public List<String> notes { get; set; }
 
-        public Day() { }
+        public bool hasNotes { get; set; }
+        public Day() { hasNotes = false; }
     }
 }
