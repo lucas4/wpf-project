@@ -24,18 +24,46 @@ namespace WPF_Project
         public MainWindow()
         {
             InitializeComponent();
-            for (int j = 0; j < 4; j++)
+           DateTime todays = DateTime.Now;
+           DateTime date = new DateTime(todays.Year, todays.Month, 8);
+           Week w = new Week();
+           Boolean nextWeek = false;
+           Boolean hasDays = true;
+           int dayI = 0;
+            while(hasDays)
             {
-                Week w = new Week();
-                for (int i = 0; i < 7; i++)
+                while(!nextWeek)
                 {
-                    w.day[i] = new Day();
-                    //w.day[i] = (i+1) + (j*7) + "";
-                    w.day[i].id = (i + 1) + (j * 7);
-                    w.day[i].Name = "test";
+                    w.day[dayI] = new Day();
+                    w.day[dayI].date = new DateTime(todays.Year, todays.Month, (dayI + 1));
                 }
-                dat.Items.Add(w);
             }
+            
+            //for (int j = 0; j < 4; j++)
+            //{
+            //    Week w = new Week();
+            //    //for (int i = 1; i < 7; i++)
+            //    //{
+            //    //    w.day[i] = new Day();
+            //    //    //w.day[i] = (i+1) + (j*7) + "";
+            //    //    w.day[i].DayId = (i + 1) + (j * 7);
+            //    //    w.day[i].Name = "test";
+            //    //}
+
+            //    for (int i = 0; i < DateTime.DaysInMonth(todays.Year, todays.Month); i++)
+            //    {
+            //        w.day[i] = new Day();
+            //        w.day[i].date = new DateTime(todays.Year, todays.Month, i + 1);
+            //    }
+            //    //Boolean hasDays = true;
+            //    //int i = 0;
+            //    //while(hasDays)
+            //    //{
+            //    //    w.day[i] = new Day();
+            //    //    w.day[i].date = new DateTime(todays.Year, todays.Month, i +1)
+            //    //}
+            //        dat.Items.Add(w);
+            //}
             
             
 
