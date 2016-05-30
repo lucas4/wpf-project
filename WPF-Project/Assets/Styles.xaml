@@ -20,6 +20,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    
     <Style x:Key="DayTextStyle" TargetType="{x:Type TextBlock}">
         <Setter Property="TextWrapping" Value="NoWrap"/>
         <Setter Property="FontFamily" Value="OpenSans"/>
@@ -37,7 +38,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
 
     <Style x:Key="OpenListButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
