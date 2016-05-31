@@ -21,6 +21,7 @@ namespace WPF_Project
     public partial class ShowNoteDlg : Window
     {
         List<Note> noteList;
+        Dictionary<int, Year> yearsDict;
 
         public ShowNoteDlg()
         {
@@ -28,10 +29,11 @@ namespace WPF_Project
             
         }
 
-        public ShowNoteDlg(List<Note> noteList)
+        public ShowNoteDlg(List<Note> noteList, Dictionary<int, Year> yearsDict)
         {
             InitializeComponent();
             this.noteList = noteList;
+            this.yearsDict = yearsDict;
             NoteList.ItemsSource = noteList;
         }
 
@@ -74,9 +76,31 @@ namespace WPF_Project
         {
             Note note = (Note)NoteList.SelectedItem;
             Note toRemove = noteList.Where(n => n.id == note.id).Single();
+
+            int noteCount = (from n in noteList
+                             where n.date == toRemove.date
+                             select n).Count();
+            if (noteCount == 1)
+            {
+                DateTime date = toRemove.date;
+                foreach (var week in yearsDict[date.Year].monthsDict[date.Month].Weeks)
+                {
+                    foreach (var day in week.day.Where(d => d != null))
+                    {
+                        if (day.date == date)
+                        {
+                            day.hasNotes = false;
+                            break;
+                        }
+
+                    }
+                }
+                            
+            }
+
             noteList.Remove(toRemove);
             NoteList.Items.Refresh();
-            
+
         }
 
     }

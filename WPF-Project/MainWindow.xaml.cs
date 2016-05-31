@@ -284,11 +284,12 @@ namespace WPF_Project
 
         private void ShowNotesButton_Click(object sender, RoutedEventArgs e)
         {
-            ShowNoteDlg dlg = new ShowNoteDlg(noteList);
+            ShowNoteDlg dlg = new ShowNoteDlg(noteList, yearsDict);
             if (dlg.ShowDialog() == true)
             {
-                
+
             }
+            dat.Items.Refresh();
         }
 
         private void ShowEventsButton_Click(object sender, RoutedEventArgs e)
