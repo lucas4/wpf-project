@@ -53,6 +53,7 @@ namespace WPF_Project
 
             MonthBlock.Text = month.MonthNames[month.MonthID] + " " + month.MonthYear;
             dat.ItemsSource = month.Weeks;
+            refreshTodayEvents();
             
             
         }
@@ -144,7 +145,16 @@ namespace WPF_Project
 
             MonthBlock.Text = actualMonthSelected.MonthNames[actualMonthSelected.MonthID] + " " + actualMonthSelected.MonthYear;
             dat.ItemsSource = actualMonthSelected.Weeks;
+            refreshTodayEvents();
+        }
 
+        public void refreshTodayEvents()
+        {
+            DateTime today = DateTime.Now;
+            List<EventDay> events = (from n in eventList
+                                     where n.date.Year == today.Year && n.date.Month == today.Month && n.date.Day == today.Day
+                                     select n).ToList();
+            TodayEvents.ItemsSource = events;
         }
 
         private void dat_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
@@ -371,6 +381,7 @@ namespace WPF_Project
                     dat.Items.Refresh();
                 }
             }
+            refreshTodayEvents();
         }
 
         /// <summary>
@@ -427,6 +438,7 @@ namespace WPF_Project
 
             }
             dat.Items.Refresh();
+            refreshTodayEvents();
         }
 
         /// <summary>
