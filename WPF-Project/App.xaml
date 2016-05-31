@@ -6,7 +6,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <local:todayConverter x:Key="todayConverter"></local:todayConverter>
-            
+            <local:stringLengthConverter x:Key="stringLengthConverter"></local:stringLengthConverter>        
             <BooleanToVisibilityConverter x:Key="BoolToVis" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Assets/Styles.xaml" />
