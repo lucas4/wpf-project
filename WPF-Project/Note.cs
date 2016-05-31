@@ -8,13 +8,18 @@ namespace WPF_Project
 {
     public class Note
     {
+        private string id { get; set; }
         public DateTime date { get; set; }
         public string content { get; set; }
+        public string shortContent { get; set; }
         public Note() { }
+       
         public Note(DateTime date, string content)
         {
+            this.id = Guid.NewGuid().ToString();
             this.date = date;
             this.content = content;
+            this.shortContent = content.Substring(0, 20) + "...";
         }
     }
 }

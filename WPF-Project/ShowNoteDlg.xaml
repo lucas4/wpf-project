@@ -10,12 +10,8 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" SharedSizeGroup="ikona" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding Path=Title}"/>
-                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Path=Author}"/>
+                    <TextBlock FontWeight="Bold" Text="{Binding Path=date}"/>
+                    <TextBlock Grid.Row="1" Text="{Binding Path=shortContent}"/>
                 </Grid>
             </Border>
         </DataTemplate>
@@ -26,20 +22,22 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
         <ToolBar Grid.ColumnSpan="3">
             <Label>Od</Label>
-            <DatePicker></DatePicker>
+            <DatePicker Name="DateFrom"></DatePicker>
             <Separator/>
             <Label>Do</Label>
-            <DatePicker></DatePicker>
+            <DatePicker Name="DateTo"></DatePicker>
             <Separator/>
-            <Button>Filtruj</Button>
-            <Button>Usuń Filtr</Button>
+            <Button Name="FilterButton" Click="FilterButton_Click">Filtruj</Button>
+            <Button Name="DeleteFilterButton" Click="DeleteFilterButton_Click">Usuń Filtr</Button>
             <Separator/>
+            <Button Name="SaveButton" Click="SaveButton_Click">Zapisz</Button>
+            <Button Name="DeleteButton" Click="DeleteButton_Click">Usuń</Button>
         </ToolBar>
         <ListBox Grid.Row="1" Name="NoteList" HorizontalContentAlignment="Stretch"
                  ItemTemplate="{StaticResource NoteDataTemplate}"
@@ -59,9 +57,10 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Margin="3">Data:</Label>
-            <TextBox Grid.Column="1" Margin="3" Text="{Binding Path=Date}" />
+            <TextBox Grid.Column="1" Margin="3" Text="{Binding Path=date}" IsReadOnly="True"/>
             <Label Grid.Row="1" Margin="3">Treść:</Label>
-            <TextBox Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding Path=Content}"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding Path=content}" Height="Auto" TextWrapping="Wrap" AcceptsReturn="True"/>
+            
         </Grid>
     </Grid>
 </Window>
