@@ -42,9 +42,9 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Name="PreviousMonthButton" Click="PreviousMonthButton_Click" Style="{DynamicResource PrevNextButtonStyle}" Content="Poprzedni miesiąc" />
+                    <Button Grid.Column="0" Name="PreviousMonthButton" Click="PreviousMonthButton_Click" Style="{DynamicResource PrevNextButtonStyle}" Content="&#xe803;  Poprzedni miesiąc" />
                     <TextBlock Grid.Column="1" Height="20" Text="" Name="MonthBlock" HorizontalAlignment="Center" />
-                    <Button Grid.Column="2" Name="NextMonthButton" Click="NextMonthButton_Click" Style="{DynamicResource PrevNextButtonStyle}" Content="Następny miesiąc" />
+                    <Button Grid.Column="2" Name="NextMonthButton" Click="NextMonthButton_Click" Style="{DynamicResource PrevNextButtonStyle}" Content="Następny miesiąc  &#xe804; " />
                 </Grid>
         </StackPanel>
         <StackPanel Grid.Row="1" Margin="5">

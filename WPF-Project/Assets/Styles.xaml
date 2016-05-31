@@ -3,7 +3,7 @@
                     xmlns:local="clr-namespace:WPF_Project">
 
     <FontFamily x:Key="Fontello">/Assets/Fonts/fontello.ttf#Fontello</FontFamily>
-
+    
 
     <Style x:Key="MyDataGridCell" TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
         <Setter Property="Background" Value="White"/>
