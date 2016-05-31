@@ -21,7 +21,6 @@ namespace WPF_Project
     public partial class ShowNoteDlg : Window
     {
         List<Note> noteList;
-        List<Note> filteredList;
         public ShowNoteDlg()
         {
             InitializeComponent();
@@ -33,12 +32,6 @@ namespace WPF_Project
             InitializeComponent();
             this.noteList = noteList;
             NoteList.ItemsSource = noteList;
-        }
-
-        private void FilterNotes(DateTime from, DateTime? to)
-        {
-            filteredList = new List<Note>();
-
         }
 
         private void FilterButton_Click(object sender, RoutedEventArgs e)
