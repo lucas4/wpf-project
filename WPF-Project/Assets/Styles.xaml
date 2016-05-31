@@ -3,31 +3,28 @@
                     xmlns:local="clr-namespace:WPF_Project">
 
     <FontFamily x:Key="Fontello">/Assets/Fonts/fontello.ttf#Fontello</FontFamily>
+    <SolidColorBrush x:Key="White">White</SolidColorBrush>
+    <SolidColorBrush x:Key="Black">Black</SolidColorBrush>
+    <SolidColorBrush x:Key="RightSideBackground">White</SolidColorBrush>
+    <SolidColorBrush x:Key="DayTextForeground">Black</SolidColorBrush>
     
-
-    <Style x:Key="MyDataGridCell" TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
-        <Setter Property="Background" Value="White"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Style.Triggers>
-            <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="#FF106EBE"/>
-                <Setter Property="Foreground" Value="White"/>
-            </Trigger>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#FFF3F3F3"/>
-                <Setter Property="Foreground" Value="Black"/>
-            </Trigger>
-        </Style.Triggers>
+    <Style x:Key="MothTextBlockStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="TextTrimming" Value="None"/>
+        <Setter Property="FontFamily" Value="OpenSans"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="Black"/>
     </Style>
-    
     <Style x:Key="DayTextStyle" TargetType="{x:Type TextBlock}">
         <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="TextTrimming" Value="None"/>
         <Setter Property="FontFamily" Value="OpenSans"/>
         <Setter Property="FontSize" Value="20"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="TextAlignment" Value="Center"/>
-        <Setter Property="TextTrimming" Value="None"/>
+
     </Style>
     <Style x:Key="FocusVisual">
         <Setter Property="Control.Template">
@@ -42,9 +39,9 @@
     <Style x:Key="OpenListButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Foreground" Value="{DynamicResource RightSideBackground}"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontSize" Value="16"/>
         <Setter Property="FontFamily" Value="{DynamicResource Fontello}" />
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -71,18 +68,18 @@
 
     <Style x:Key="PrevNextButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-        <Setter Property="Background" Value="White"/>
+        <Setter Property="Background" Value="{DynamicResource RightSideBackground}"/>
         <Setter Property="Foreground" Value="#FF106EBE"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Padding" Value="0"/>
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontFamily" Value="{DynamicResource Fontello}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                    <Border x:Name="border" BorderThickness="0" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
                         <ContentPresenter x:Name="contentPresenter" Margin="10" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -101,7 +98,7 @@
 
     <Style x:Key="RightSideButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-        <Setter Property="Background" Value="White"/>
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="#FF106EBE"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -139,8 +136,26 @@
     </Style>
     
     <!-- DataGridStyle -->
+    <Style x:Key="MyDataGridCell" TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource DayTextForeground}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="#FF106EBE"/>
+                <Setter Property="Foreground" Value="White"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#FFF3F3F3"/>
+                <Setter Property="Foreground" Value="Black"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
     <Style x:Key="MyDataGridStyle" TargetType="{x:Type DataGrid}">
-        <Setter Property="Background" Value="White"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="RowBackground" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="BorderBrush" Value="#FF688CAF"/>
         <Setter Property="BorderThickness" Value="1"/>
@@ -196,6 +211,7 @@
             </MultiTrigger>
         </Style.Triggers>
     </Style>
+    
     <Style x:Key="ColumnHeaderGripperStyle" TargetType="{x:Type Thumb}">
         <Setter Property="Width" Value="5" />
         <Setter Property="Cursor" Value="SizeWE" />
@@ -209,9 +225,9 @@
     </Style>
     <Style TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="Background" Value="Red"/>
-        <Setter Property="Foreground" Value="#FF7A7A7A"/>
+        <Setter Property="Foreground" Value="Black"/>
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="Height" Value="30"/>
         <Setter Property="SeparatorBrush" Value="#FFC9CACA" />
         <Setter Property="FontSize" Value="14"/>
@@ -219,13 +235,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
-                    <Grid Background='Transparent' HorizontalAlignment="Stretch" >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width='Auto' />
-                            <ColumnDefinition Width='*' />
-                            <ColumnDefinition Width='Auto' />
-                        </Grid.ColumnDefinitions>
+                    <Grid Background="White" Opacity="0.5">
                         <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                  TextBlock.TextAlignment="Center"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                   HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                                   Margin='{TemplateBinding Padding}'

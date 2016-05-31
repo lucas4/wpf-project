@@ -6,49 +6,41 @@
         xmlns:local="clr-namespace:WPF_Project"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="650" Width="800">
+        Title="MainWindow" Height="650" Width="1000">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
 
         <Style x:Key="BorderDayStyle" TargetType="{x:Type Border}">
             <Setter Property="Border.Background" Value="Transparent" />
             <Setter Property="Border.VerticalAlignment" Value="Stretch" />
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding Path=Tag, RelativeSource={RelativeSource Self}, Converter={StaticResource todayConverter}}" Value="1">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Tag, RelativeSource={RelativeSource Self}, Converter={StaticResource todayConverter}}" Value="1">
                     <Setter Property="Border.Background" Value="BlueViolet" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Path=Tag, RelativeSource={RelativeSource Self}, Converter={StaticResource todayConverter}}" Value="2">
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=Tag, RelativeSource={RelativeSource Self}, Converter={StaticResource todayConverter}}" Value="2">
                     <Setter Property="Border.Visibility" Value="Hidden" />
-            </DataTrigger>
+                </DataTrigger>
             </Style.Triggers>
-    </Style>
+        </Style>
     </Window.Resources>
-    <StackPanel>
     <Grid>
-        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" Name="PreviousMonthButton" Click="PreviousMonthButton_Click" Style="{DynamicResource PrevNextButtonStyle}" Content="&#xe803;  Poprzedni miesiąc" />
-                    <TextBlock Grid.Column="1" Height="20" Text="" Name="MonthBlock" HorizontalAlignment="Center" />
-                    <Button Grid.Column="2" Name="NextMonthButton" Click="NextMonthButton_Click" Style="{DynamicResource PrevNextButtonStyle}" Content="Następny miesiąc  &#xe804; " />
+        <Grid Grid.Column="0">
+            <StackPanel Orientation="Vertical">
+                <Grid x:Name="TopMenuGrid" Background="{DynamicResource RightSideBackground}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" x:Name="PreviousMonthButton" Click="PreviousMonthButton_Click" Style="{DynamicResource PrevNextButtonStyle}" Content="&#xe803;  Poprzedni miesiąc" />
+                    <TextBlock Grid.Column="1" x:Name="MonthBlock" Style="{DynamicResource MothTextBlockStyle}" />
+                    <Button Grid.Column="2" x:Name="NextMonthButton" Click="NextMonthButton_Click" Style="{DynamicResource PrevNextButtonStyle}" Content="Następny miesiąc  &#xe804; " />
                 </Grid>
-        </StackPanel>
-        <StackPanel Grid.Row="1" Margin="5">
-            <DataGrid x:Name="dat" BorderThickness="0" AutoGenerateColumns="False" Grid.Column="0" ColumnWidth="*" RowHeight="80" CellStyle="{StaticResource MyDataGridCell}" SelectedCellsChanged="dat_SelectedCellsChanged" SelectionUnit="Cell" SelectionMode="Single" IsReadOnly="True" HeadersVisibility="Column"  GridLinesVisibility="None" Style="{DynamicResource MyDataGridStyle}">
+                <DataGrid x:Name="dat" Margin="5" BorderThickness="0" AutoGenerateColumns="False" Grid.Column="0" ColumnWidth="*" RowHeight="80" CellStyle="{StaticResource MyDataGridCell}" SelectedCellsChanged="dat_SelectedCellsChanged" SelectionUnit="Cell" SelectionMode="Single" IsReadOnly="True" HeadersVisibility="Column"  GridLinesVisibility="None" Style="{DynamicResource MyDataGridStyle}">
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Dodaj wydarzenie" Click="AddEvent_Click">
@@ -64,120 +56,122 @@
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                     <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Poniedziałek">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border Style="{DynamicResource BorderDayStyle}" Tag="{Binding Path=day[0]}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <Grid>
-                                        <TextBlock Text="{Binding Path=day[0].date.Day}" Style="{DynamicResource DayTextStyle}" VerticalAlignment="Center"/>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                                            <Button Content="&#xe801;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[0].hasEvents, Converter={StaticResource BoolToVis}}" />
-                                            <Button Content="&#xe802;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[0].hasNotes, Converter={StaticResource BoolToVis}}" />
-                                        </StackPanel>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Wtorek">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border Style="{DynamicResource BorderDayStyle}" Tag="{Binding Path=day[1]}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <Grid>
-                                        <TextBlock Text="{Binding Path=day[1].date.Day}" Style="{DynamicResource DayTextStyle}" VerticalAlignment="Center"/>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                                            <Button Content="&#xe801;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[1].hasEvents, Converter={StaticResource BoolToVis}}" />
-                                            <Button Content="&#xe802;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[1].hasNotes, Converter={StaticResource BoolToVis}}" />
-                                        </StackPanel>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Środa">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border Style="{DynamicResource BorderDayStyle}" Tag="{Binding Path=day[2]}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <Grid>
-                                        <TextBlock Text="{Binding Path=day[2].date.Day}" Style="{DynamicResource DayTextStyle}" VerticalAlignment="Center"/>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                                            <Button Content="&#xe801;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[2].hasEvents, Converter={StaticResource BoolToVis}}" />
-                                            <Button Content="&#xe802;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[2].hasNotes, Converter={StaticResource BoolToVis}}" />
-                                        </StackPanel>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Czwartek">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border Style="{DynamicResource BorderDayStyle}" Tag="{Binding Path=day[3]}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <Grid>
-                                        <TextBlock Text="{Binding Path=day[3].date.Day}" Style="{DynamicResource DayTextStyle}" VerticalAlignment="Center"/>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                                            <Button Content="&#xe801;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[3].hasEvents, Converter={StaticResource BoolToVis}}" />
-                                            <Button Content="&#xe802;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[3].hasNotes, Converter={StaticResource BoolToVis}}" />
-                                        </StackPanel>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Piątek">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border Style="{DynamicResource BorderDayStyle}" Tag="{Binding Path=day[4]}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <Grid>
-                                        <TextBlock Text="{Binding Path=day[4].date.Day}" Style="{DynamicResource DayTextStyle}" VerticalAlignment="Center"/>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                                            <Button Content="&#xe801;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[4].hasEvents, Converter={StaticResource BoolToVis}}" />
-                                            <Button Content="&#xe802;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[4].hasNotes, Converter={StaticResource BoolToVis}}" />
-                                        </StackPanel>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Sobota">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border Style="{DynamicResource BorderDayStyle}" Tag="{Binding Path=day[5]}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <Grid>
-                                        <TextBlock Text="{Binding Path=day[5].date.Day}" Style="{DynamicResource DayTextStyle}" VerticalAlignment="Center"/>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                                            <Button Content="&#xe801;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[5].hasEvents, Converter={StaticResource BoolToVis}}" />
-                                            <Button Content="&#xe802;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[5].hasNotes, Converter={StaticResource BoolToVis}}" />
-                                        </StackPanel>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Niedziela">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Border Style="{DynamicResource BorderDayStyle}" Tag="{Binding Path=day[6]}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <Grid>
-                                        <TextBlock Text="{Binding Path=day[6].date.Day}" Style="{DynamicResource DayTextStyle}" VerticalAlignment="Center"/>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                                            <Button Content="&#xe801;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[6].hasEvents, Converter={StaticResource BoolToVis}}" />
-                                            <Button Content="&#xe802;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[6].hasNotes, Converter={StaticResource BoolToVis}}" />
-                                        </StackPanel>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>             
-                </DataGrid.Columns>
-            </DataGrid>
-        </StackPanel>
-            <Grid Grid.Column="1" Grid.RowSpan="2">
-                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                    <Button Content="&#xe802; Pokaż notatki"  Name="ShowNotesButton"  Click="ShowNotesButton_Click" Style="{DynamicResource RightSideButtonStyle}" />
-                    <Button Content="&#xe801; Pokaż wydarzenia" Name="ShowEventsButton" Click="ShowEventsButton_Click" Style="{DynamicResource RightSideButtonStyle}" />
-                </StackPanel>
-            </Grid>
+                        <DataGridTemplateColumn Header="Poniedziałek">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{DynamicResource BorderDayStyle}" Tag="{Binding Path=day[0]}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Grid>
+                                            <TextBlock Text="{Binding Path=day[0].date.Day}" Style="{DynamicResource DayTextStyle}" VerticalAlignment="Center"/>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                                <Button Content="&#xe801;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[0].hasEvents, Converter={StaticResource BoolToVis}}" />
+                                                <Button Content="&#xe802;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[0].hasNotes, Converter={StaticResource BoolToVis}}" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Wtorek">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{DynamicResource BorderDayStyle}" Tag="{Binding Path=day[1]}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Grid>
+                                            <TextBlock Text="{Binding Path=day[1].date.Day}" Style="{DynamicResource DayTextStyle}" VerticalAlignment="Center"/>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                                <Button Content="&#xe801;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[1].hasEvents, Converter={StaticResource BoolToVis}}" />
+                                                <Button Content="&#xe802;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[1].hasNotes, Converter={StaticResource BoolToVis}}" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Środa">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{DynamicResource BorderDayStyle}" Tag="{Binding Path=day[2]}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Grid>
+                                            <TextBlock Text="{Binding Path=day[2].date.Day}" Style="{DynamicResource DayTextStyle}" VerticalAlignment="Center"/>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                                <Button Content="&#xe801;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[2].hasEvents, Converter={StaticResource BoolToVis}}" />
+                                                <Button Content="&#xe802;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[2].hasNotes, Converter={StaticResource BoolToVis}}" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Czwartek">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{DynamicResource BorderDayStyle}" Tag="{Binding Path=day[3]}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Grid>
+                                            <TextBlock Text="{Binding Path=day[3].date.Day}" Style="{DynamicResource DayTextStyle}" VerticalAlignment="Center"/>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                                <Button Content="&#xe801;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[3].hasEvents, Converter={StaticResource BoolToVis}}" />
+                                                <Button Content="&#xe802;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[3].hasNotes, Converter={StaticResource BoolToVis}}" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Piątek">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{DynamicResource BorderDayStyle}" Tag="{Binding Path=day[4]}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Grid>
+                                            <TextBlock Text="{Binding Path=day[4].date.Day}" Style="{DynamicResource DayTextStyle}" VerticalAlignment="Center"/>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                                <Button Content="&#xe801;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[4].hasEvents, Converter={StaticResource BoolToVis}}" />
+                                                <Button Content="&#xe802;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[4].hasNotes, Converter={StaticResource BoolToVis}}" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Sobota">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{DynamicResource BorderDayStyle}" Tag="{Binding Path=day[5]}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Grid>
+                                            <TextBlock Text="{Binding Path=day[5].date.Day}" Style="{DynamicResource DayTextStyle}" VerticalAlignment="Center"/>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                                <Button Content="&#xe801;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[5].hasEvents, Converter={StaticResource BoolToVis}}" />
+                                                <Button Content="&#xe802;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[5].hasNotes, Converter={StaticResource BoolToVis}}" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Niedziela">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border Style="{DynamicResource BorderDayStyle}" Tag="{Binding Path=day[6]}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Grid>
+                                            <TextBlock Text="{Binding Path=day[6].date.Day}" Style="{DynamicResource DayTextStyle}" VerticalAlignment="Center"/>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                                <Button Content="&#xe801;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[6].hasEvents, Converter={StaticResource BoolToVis}}" />
+                                                <Button Content="&#xe802;" Style="{DynamicResource OpenListButtonStyle}" Visibility="{Binding Path=day[6].hasNotes, Converter={StaticResource BoolToVis}}" />
+
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
         </Grid>
-    </StackPanel>
+        <Grid Grid.Column="1" Background="{DynamicResource RightSideBackground}">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                <Button Content="&#xe802; Pokaż notatki"  Name="ShowNotesButton"  Click="ShowNotesButton_Click" Style="{DynamicResource RightSideButtonStyle}" />
+                <Button Content="&#xe801; Pokaż wydarzenia" Name="ShowEventsButton" Click="ShowEventsButton_Click" Style="{DynamicResource RightSideButtonStyle}" />
+                <CheckBox x:Name="ChangeStyle" Content="Zmiana tła" Click="ChangeStyle_Click" />
+            </StackPanel>
+        </Grid>
+    </Grid>
 </Window>

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -54,7 +56,7 @@ namespace WPF_Project
             MonthBlock.Text = month.MonthNames[month.MonthID] + " " + month.MonthYear;
             dat.ItemsSource = month.Weeks;
             
-            
+
         }
 
         private void dat_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
@@ -69,6 +71,34 @@ namespace WPF_Project
             //    actualDaySelected = selectedDay;
             //    DayNotes.Text = selectedDay.notes;
             //} catch { }
+        }
+
+        private async Task<bool> setBackgroundAsync()
+        {
+            try {
+                Bing BingImgInfo;
+                using (var httpClient = new HttpClient())
+                {
+                    var json = await httpClient.GetStringAsync("http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US");
+                    BingImgInfo = JsonConvert.DeserializeObject<Bing>(json);
+                }
+
+                var image = new Image();
+                var fullFilePath = @"http://www.bing.com" + BingImgInfo.images[0].url;
+
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(fullFilePath, UriKind.Absolute);
+                bitmap.EndInit();
+
+                image.Source = bitmap;
+                this.Background = new ImageBrush(image.Source);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private Month generateMonth(int yearId, int monthId)
@@ -299,6 +329,20 @@ namespace WPF_Project
         private void ShowEventsButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private async void ChangeStyle_Click(object sender, RoutedEventArgs e)
+        {
+            if (ChangeStyle.IsChecked == true)
+            {
+                if(await setBackgroundAsync() == true)
+                    Application.Current.Resources["DayTextForeground"] = Application.Current.Resources["White"];
+            }
+            else
+            {
+                Application.Current.Resources["DayTextForeground"] = Application.Current.Resources["Black"];
+                this.Background = Application.Current.Resources["White"] as SolidColorBrush;
+            }
         }
     }
 
