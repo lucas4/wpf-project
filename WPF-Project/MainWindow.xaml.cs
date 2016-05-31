@@ -24,7 +24,6 @@ namespace WPF_Project
     /// </summary>
     public partial class MainWindow : Window
     {
-        //static List<Month> monthsList;
         static Dictionary<int, Year> yearsDict;
         static List<EventDay> eventList;
         static List<Note> noteList;
@@ -58,6 +57,10 @@ namespace WPF_Project
             
         }
 
+        /// <summary>
+        /// Import danych JSON, stworzenie nowego kalendarza i wyświetlenie obecnego miesiąca
+        /// </summary>
+        /// <param name="data"></param>
         public void loadImportedData(List<DayJson> data)
         {
             yearsDict = new Dictionary<int, Year>();
