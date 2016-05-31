@@ -394,9 +394,9 @@ namespace WPF_Project
         private void ShowNotesButton_Click(object sender, RoutedEventArgs e)
         {
             ShowNoteDlg dlg = new ShowNoteDlg(noteList, yearsDict);
-            if (dlg.ShowDialog() == true)
+            if (dlg.ShowDialog() == false)
             {
-
+                noteList = dlg.noteList;
             }
             dat.Items.Refresh();
         }
@@ -409,9 +409,9 @@ namespace WPF_Project
         private void ShowEventsButton_Click(object sender, RoutedEventArgs e)
         {
             ShowEventsDlg dlg = new ShowEventsDlg(eventList, yearsDict);
-            if (dlg.ShowDialog() == true)
+            if (dlg.ShowDialog() == false)
             {
-
+                eventList = dlg.eventsList;
             }
             dat.Items.Refresh();
         }

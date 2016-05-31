@@ -19,7 +19,7 @@ namespace WPF_Project
     /// </summary>
     public partial class ShowEventsDlg : Window
     {
-        List<EventDay> eventsList;
+        public List<EventDay> eventsList;
         Dictionary<int, Year> yearsDict;
 
         public ShowEventsDlg()

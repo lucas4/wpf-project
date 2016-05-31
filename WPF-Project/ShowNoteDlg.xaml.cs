@@ -20,7 +20,7 @@ namespace WPF_Project
     /// </summary>
     public partial class ShowNoteDlg : Window
     {
-        List<Note> noteList;
+        public List<Note> noteList;
         Dictionary<int, Year> yearsDict;
 
         public ShowNoteDlg()
