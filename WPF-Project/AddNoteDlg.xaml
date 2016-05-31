@@ -19,7 +19,7 @@
         </Grid.ColumnDefinitions>
 
         <Label Margin="3" Grid.Column="0" Grid.Row="1">Treść</Label>
-        <TextBox x:Name="TextBoxContent" Margin="3" Grid.Column="1" Grid.Row="1" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="TextBoxContent" Margin="3" Grid.Column="1" Grid.Row="1" VerticalContentAlignment="Center" AcceptsReturn="True"/>
         
         <Grid HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="2" Grid.IsSharedSizeScope="True">
             <Grid.ColumnDefinitions>

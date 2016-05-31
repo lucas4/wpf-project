@@ -26,15 +26,16 @@ namespace WPF_Project
         public ShowNoteDlg()
         {
             InitializeComponent();
-            
+
         }
 
         public ShowNoteDlg(List<Note> noteList, Dictionary<int, Year> yearsDict)
         {
             InitializeComponent();
-            this.noteList = noteList;
+            this.noteList = noteList.OrderBy(d => d.date).ToList();
             this.yearsDict = yearsDict;
-            NoteList.ItemsSource = noteList;
+            NoteList.ItemsSource = this.noteList;
+
         }
 
         private void FilterButton_Click(object sender, RoutedEventArgs e)
@@ -68,38 +69,46 @@ namespace WPF_Project
 
         private void DeleteFilterButton_Click(object sender, RoutedEventArgs e)
         {
-            NoteList.Items.Filter = null;    
+            NoteList.Items.Filter = null;
 
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            Note note = (Note)NoteList.SelectedItem;
-            Note toRemove = noteList.Where(n => n.id == note.id).Single();
-
-            int noteCount = (from n in noteList
-                             where n.date == toRemove.date
-                             select n).Count();
-            if (noteCount == 1)
+            try
             {
-                DateTime date = toRemove.date;
-                foreach (var week in yearsDict[date.Year].monthsDict[date.Month].Weeks)
+                Note note = (Note)NoteList.SelectedItem;
+                Note toRemove = noteList.Where(n => n.id == note.id).Single();
+
+                int noteCount = (from n in noteList
+                                 where n.date == toRemove.date
+                                 select n).Count();
+                if (noteCount == 1)
                 {
-                    foreach (var day in week.day.Where(d => d != null))
+                    DateTime date = toRemove.date;
+                    foreach (var week in yearsDict[date.Year].monthsDict[date.Month].Weeks)
                     {
-                        if (day.date == date)
+                        foreach (var day in week.day.Where(d => d != null))
                         {
-                            day.hasNotes = false;
-                            break;
+                            if (day.date == date)
+                            {
+                                day.hasNotes = false;
+                                break;
+                            }
+
                         }
-
                     }
-                }
-                            
-            }
 
-            noteList.Remove(toRemove);
-            NoteList.Items.Refresh();
+                }
+
+                noteList.Remove(toRemove);
+                NoteList.ItemsSource = noteList;
+                NoteList.Items.Refresh();
+            }
+            catch
+            {
+
+            }
 
         }
 
