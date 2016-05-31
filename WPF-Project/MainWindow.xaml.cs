@@ -33,6 +33,8 @@ namespace WPF_Project
         static Month actualMonthSelected;
         static Day actualDaySelected;
 
+        static double loadingOpacity = 0.4;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -155,6 +157,14 @@ namespace WPF_Project
                                      where n.date.Year == today.Year && n.date.Month == today.Month && n.date.Day == today.Day
                                      select n).ToList();
             TodayEvents.ItemsSource = events;
+            if (events.Count <= 0)
+            {
+                ShowTodayEventsButton.IsChecked = false;
+                ShowTodayEventsButton.IsEnabled = false;
+                TodayEvents.Visibility = Visibility.Collapsed; 
+            }
+            else
+                ShowTodayEventsButton.IsEnabled = true;
         }
 
         /// <summary>
@@ -404,11 +414,13 @@ namespace WPF_Project
         private void ShowNotesButton_Click(object sender, RoutedEventArgs e)
         {
             ShowNoteDlg dlg = new ShowNoteDlg(noteList, yearsDict);
+            this.Opacity = loadingOpacity;
             if (dlg.ShowDialog() == false)
             {
                 noteList = dlg.noteList;
             }
             dat.Items.Refresh();
+            this.Opacity = 1;
         }
 
         /// <summary>
@@ -419,12 +431,14 @@ namespace WPF_Project
         private void ShowEventsButton_Click(object sender, RoutedEventArgs e)
         {
             ShowEventsDlg dlg = new ShowEventsDlg(eventList, yearsDict);
+            this.Opacity = loadingOpacity;
             if (dlg.ShowDialog() == false)
             {
                 eventList = dlg.eventsList;
             }
             dat.Items.Refresh();
             refreshTodayEvents();
+            this.Opacity = 1;
         }
 
         /// <summary>
@@ -436,6 +450,7 @@ namespace WPF_Project
         {
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
             dlg.Filter = "Archiwum Kalendarza (*.json)|*.json";
+            this.Opacity = loadingOpacity;
             if (dlg.ShowDialog() == true)
             {
                 using (StreamWriter file = File.CreateText(dlg.FileName))
@@ -475,6 +490,7 @@ namespace WPF_Project
                     serializer.Serialize(file, daysList);
                 }
             }
+            this.Opacity = 1;
 
         }
 
@@ -487,6 +503,7 @@ namespace WPF_Project
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             dlg.Filter = "Archiwum Kalendarza (*.json)|*.json";
+            this.Opacity = loadingOpacity;
             if (dlg.ShowDialog() == true)
             {
                 try
@@ -502,6 +519,7 @@ namespace WPF_Project
                     MessageBox.Show("ERROR : Wrong data!", "WPF-Calendar");
                 }
             }
+            this.Opacity = 1;
         }
 
         /// <summary>
@@ -529,6 +547,7 @@ namespace WPF_Project
 
                 image.Source = bitmap;
                 this.Background = new ImageBrush(image.Source);
+                this.Background.Opacity = 0.70;
                 return true;
             }
             catch
@@ -554,6 +573,15 @@ namespace WPF_Project
                 Application.Current.Resources["DayTextForeground"] = Application.Current.Resources["Black"];
                 this.Background = Application.Current.Resources["White"] as SolidColorBrush;
             }
+        }
+
+
+        private void ShowTodayEventsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ShowTodayEventsButton.IsChecked == true)
+                TodayEvents.Visibility = Visibility.Visible;
+            else
+                TodayEvents.Visibility = Visibility.Collapsed;
         }
     }
 
