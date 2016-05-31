@@ -421,7 +421,12 @@ namespace WPF_Project
         /// <param name="e"></param>
         private void ShowEventsButton_Click(object sender, RoutedEventArgs e)
         {
+            ShowEventsDlg dlg = new ShowEventsDlg(eventList, yearsDict);
+            if(dlg.ShowDialog() == true)
+            {
 
+            }
+            dat.Items.Refresh();
         }
 
         /// <summary>

@@ -68,6 +68,9 @@
     <Compile Include="EventDay.cs" />
     <Compile Include="Month.cs" />
     <Compile Include="Note.cs" />
+    <Compile Include="ShowEventsDlg.xaml.cs">
+      <DependentUpon>ShowEventsDlg.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ShowNoteDlg.xaml.cs">
       <DependentUpon>ShowNoteDlg.xaml</DependentUpon>
     </Compile>
@@ -99,6 +102,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ShowEventsDlg.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ShowNoteDlg.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
