@@ -484,8 +484,18 @@ namespace WPF_Project
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             if(dlg.ShowDialog() == true)
             {
-                List<DayJson> daysJson = JsonConvert.DeserializeObject<List<DayJson>>(File.ReadAllText(dlg.FileName));
-                loadImportedData(daysJson);
+                try
+                {
+                    List<DayJson> daysJson = JsonConvert.DeserializeObject<List<DayJson>>(File.ReadAllText(dlg.FileName));
+                    if (daysJson != null)
+                        loadImportedData(daysJson);
+                    else
+                        MessageBox.Show("ERROR : File is empty!", "WPF-Calendar");
+                } 
+                catch
+                {
+                    MessageBox.Show("ERROR : Wrong data!", "WPF-Calendar");
+                }
             }
         }
     }
