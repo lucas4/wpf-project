@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_Project"
         mc:Ignorable="d"
+        Icon="Assets/calendar_icon.ico"
         Title="WPF-Calendar" Height="650" Width="800">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />

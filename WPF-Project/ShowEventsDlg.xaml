@@ -1,6 +1,7 @@
 ﻿<Window x:Class="WPF_Project.ShowEventsDlg"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Icon="Assets/calendar_icon.ico"
         Title="Wydarzenia" Height="350" Width="540">
     <Window.Resources>
         <DataTemplate x:Key="NoteDataTemplate">
