@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -299,12 +301,25 @@ namespace WPF_Project
 
         private void ExportDataButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            if (dlg.ShowDialog() == true)
+            {
+                using (StreamWriter file = File.CreateText(dlg.FileName))
+                {
+                    JsonSerializer serializer = new JsonSerializer();
+                    serializer.Serialize(file, noteList);
+                }
+            }
+
         }
 
         private void ImportDataButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            if(dlg.ShowDialog() == true)
+            {
+                List<Note> notes = JsonConvert.DeserializeObject<List<Note>>(File.ReadAllText(dlg.FileName));
+            }
         }
     }
 
