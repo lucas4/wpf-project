@@ -1,0 +1,69 @@
+﻿<Window x:Class="WPF_Project.ShowEventsDlg"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ShowEventsDlg" Height="350" Width="540">
+    <Window.Resources>
+        <DataTemplate x:Key="NoteDataTemplate">
+            <Border Margin="5" BorderThickness="1" BorderBrush="SteelBlue" CornerRadius="4">
+                <Grid Margin="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock FontWeight="Bold" Text="{Binding Path=date}"/>
+                    <TextBlock Grid.Row="1" Text="{Binding Path=description, Converter={StaticResource stringLengthConverter}, ConverterParameter=20}"  TextWrapping="Wrap"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid Margin="3" Grid.IsSharedSizeScope="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
+        <ToolBar Grid.ColumnSpan="3">
+            <Label>Od</Label>
+            <DatePicker Name="DateFrom"></DatePicker>
+            <Separator/>
+            <Label>Do</Label>
+            <DatePicker Name="DateTo"></DatePicker>
+            <Separator/>
+            <Button Name="FilterButton">Filtruj</Button>
+            <Button Name="DeleteFilterButton">Usuń Filtr</Button>
+            <Separator/>
+            <Button Name="DeleteButton">Usuń</Button>
+        </ToolBar>
+        <ListBox Grid.Row="1" Name="EventsList" HorizontalContentAlignment="Stretch"
+                 ItemTemplate="{StaticResource NoteDataTemplate}"
+                 ScrollViewer.CanContentScroll="False">
+        </ListBox>
+        <GridSplitter Grid.Row="1" Grid.Column="1" Width="5" HorizontalAlignment="Center"/>
+        <Grid Grid.Row="1" Grid.Column="2"
+              DataContext="{Binding ElementName=EventsList, Path=SelectedItem}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label Margin="3">Data:</Label>
+            <TextBox Grid.Column="1" Margin="3" Text="{Binding Path=date}" IsReadOnly="True"/>
+            
+            <Label Margin="3" Grid.Row="1">Nazwa:</Label>
+            <TextBox Grid.Column="1" Grid.Row="1" Margin="3" Text="{Binding Path=name}" IsReadOnly="True"/>
+            
+            <Label Grid.Row="2" Margin="3">Opis:</Label>
+            <TextBox Name="NoteBox" Grid.Row="2" Grid.Column="1" Margin="3" Text="{Binding Path=description}" Height="Auto" TextWrapping="Wrap" AcceptsReturn="True"/>
+
+        </Grid>
+    </Grid>
+</Window>
