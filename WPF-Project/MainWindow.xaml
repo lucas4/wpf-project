@@ -175,6 +175,8 @@
                 <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                     <Button Content="&#xe802; Pokaż notatki"  Name="ShowNotesButton"  Click="ShowNotesButton_Click" Style="{DynamicResource RightSideButtonStyle}" />
                     <Button Content="&#xe801; Pokaż wydarzenia" Name="ShowEventsButton" Click="ShowEventsButton_Click" Style="{DynamicResource RightSideButtonStyle}" />
+                    <Button Content="&#xe801; Eksport danych" Name="ExportDataButton" Click="ExportDataButton_Click" Style="{DynamicResource RightSideButtonStyle}" />
+                    <Button Content="&#xe801; Import danych" Name="ImportDataButton" Click="ImportDataButton_Click" Style="{DynamicResource RightSideButtonStyle}" />
                 </StackPanel>
             </Grid>
         </Grid>
