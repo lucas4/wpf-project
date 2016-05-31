@@ -59,7 +59,7 @@
             <Label Margin="3">Data:</Label>
             <TextBox Grid.Column="1" Margin="3" Text="{Binding Path=date}" IsReadOnly="True"/>
             <Label Grid.Row="1" Margin="3">Treść:</Label>
-            <TextBox Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding Path=content}" Height="Auto" TextWrapping="Wrap" AcceptsReturn="True"/>
+            <TextBox Name="NoteBox" Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding Path=content}" Height="Auto" TextWrapping="Wrap" AcceptsReturn="True"/>
             
         </Grid>
     </Grid>

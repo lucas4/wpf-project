@@ -71,12 +71,19 @@ namespace WPF_Project
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Note note = (Note)NoteList.SelectedItem;
+            Note toEdit = noteList.Where(n => n.id == note.id).Single();
+            toEdit.changeContent(NoteBox.Text);
+            NoteList.Items.Refresh();
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Note note = (Note)NoteList.SelectedItem;
+            Note toRemove = noteList.Where(n => n.id == note.id).Single();
+            noteList.Remove(toRemove);
+            NoteList.Items.Refresh();
+            
         }
     }
 }
