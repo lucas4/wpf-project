@@ -47,8 +47,7 @@ namespace WPF_Project
 
             actualDaySelected = month.getDay(todays.Day);
             actualMonthSelected = month;
-            actualYearSelected = new Year();
-            actualYearSelected.YearID = todays.Year;
+            actualYearSelected = new Year(todays.Year);
 
             yearsDict.Add(todays.Year, actualYearSelected);
             yearsDict[actualYearSelected.YearID].monthsDict.Add(todays.Month, month);
@@ -57,6 +56,92 @@ namespace WPF_Project
             dat.ItemsSource = month.Weeks;
             
             
+        }
+
+        public void loadImportedData(List<DayJson> data)
+        {
+            yearsDict = new Dictionary<int, Year>();
+            eventList = new List<EventDay>();
+            noteList = new List<Note>();
+            dat.ItemsSource = null;
+
+            foreach (var date in data.Select(d => d.date))
+            {
+                if (!yearsDict.ContainsKey(date.Year))
+                {
+                    Year yearTemp = new Year(date.Year);
+                    Month monthTemp = generateMonth(date.Year, date.Month);
+                    yearTemp.monthsDict.Add(date.Month, monthTemp);
+                    yearsDict.Add(date.Year, yearTemp);
+                }
+                else
+                {
+                    if (!yearsDict[date.Year].monthsDict.ContainsKey(date.Month))
+                    {
+                        Month monthTemp = generateMonth(date.Year, date.Month);
+                        yearsDict[date.Year].monthsDict.Add(date.Month, monthTemp);
+                    }
+                }
+            }
+
+            foreach (var datas in data)
+            {
+                if (datas.eventsList.Count > 0)
+                    yearsDict[datas.date.Year].monthsDict[datas.date.Month].getDay(datas.date.Day).hasEvents = true;
+                
+                if (eventList.Count <= 0)
+                {
+                    eventList = datas.eventsList;
+                }
+                else
+                    eventList = eventList.Concat(datas.eventsList).ToList();
+            }
+
+            foreach (var datas in data)
+            {
+                if (datas.noteList.Count > 0)
+                    yearsDict[datas.date.Year].monthsDict[datas.date.Month].getDay(datas.date.Day).hasNotes = true;
+
+                if (noteList.Count <= 0)
+                {
+                    noteList = datas.noteList;
+                }
+                else
+                    noteList = noteList.Concat(datas.noteList).ToList();
+            }
+
+            DateTime todays = DateTime.Now;
+            if (yearsDict.ContainsKey(todays.Year))
+            {
+                if (yearsDict[todays.Year].monthsDict.ContainsKey(todays.Month))
+                {
+                    actualDaySelected = yearsDict[todays.Year].monthsDict[todays.Month].getDay(todays.Day);
+                    actualMonthSelected = yearsDict[todays.Year].monthsDict[todays.Month];
+                    actualYearSelected = yearsDict[todays.Year];
+                }
+                else
+                {
+                    Month month = generateMonth(todays.Year, todays.Month);
+                    actualDaySelected = month.getDay(todays.Day);
+                    actualMonthSelected = month;
+                    yearsDict[actualYearSelected.YearID].monthsDict.Add(todays.Month, month);
+
+                }
+            }
+            else
+            {
+                Month month = generateMonth(todays.Year, todays.Month);
+                actualDaySelected = month.getDay(todays.Day);
+                actualMonthSelected = month;
+                actualYearSelected = new Year(todays.Year);
+
+                yearsDict.Add(todays.Year, actualYearSelected);
+                yearsDict[actualYearSelected.YearID].monthsDict.Add(todays.Month, month);
+            }
+
+            MonthBlock.Text = actualMonthSelected.MonthNames[actualMonthSelected.MonthID] + " " + actualMonthSelected.MonthYear;
+            dat.ItemsSource = actualMonthSelected.Weeks;
+
         }
 
         private void dat_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
@@ -397,6 +482,7 @@ namespace WPF_Project
             if(dlg.ShowDialog() == true)
             {
                 List<DayJson> daysJson = JsonConvert.DeserializeObject<List<DayJson>>(File.ReadAllText(dlg.FileName));
+                loadImportedData(daysJson);
             }
         }
     }
