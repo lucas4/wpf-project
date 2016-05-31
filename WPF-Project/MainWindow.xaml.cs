@@ -106,6 +106,21 @@ namespace WPF_Project
             return month;
         }
 
+        /// <summary>
+        /// Zwraca notatkę o danej dacie
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        private Note getNoteByDate(DateTime date)
+        {
+            foreach (var note in noteList)
+            {
+                if (note.date == date)
+                    return note;
+            }
+            return new Note();
+        }
+
         private void PreviousMonthButton_Click(object sender, RoutedEventArgs e)
         {
             Year searchedYear;
@@ -265,6 +280,20 @@ namespace WPF_Project
                     dat.Items.Refresh();
                 }
             }
+        }
+
+        private void ShowNotesButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShowNoteDlg dlg = new ShowNoteDlg();
+            if (dlg.ShowDialog() == true)
+            {
+
+            }
+        }
+
+        private void ShowEventsButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 

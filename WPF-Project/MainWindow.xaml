@@ -165,8 +165,8 @@
         </StackPanel>
         <Grid Grid.Column="1" Grid.RowSpan="2">
                 <StackPanel>
-                    <Button Content="Pokaż notatki" />
-                    <Button Content="Pokaż wydarzenia" />
+                    <Button Content="Pokaż notatki" Name="ShowNotesButton"  Click="ShowNotesButton_Click"/>
+                    <Button Content="Pokaż wydarzenia" Name="ShowEventsButton" Click="ShowEventsButton_Click" />
                 </StackPanel>
             
         </Grid>

@@ -25,6 +25,12 @@ namespace WPF_Project
             InitializeComponent();
         }
 
+        public AddNoteDlg(string note)
+        {
+            InitializeComponent();
+            this.TextBoxContent.Text = note;
+        }
+
         private void TrueButton_Click(object sender, RoutedEventArgs e)
         {
             // add note to list
