@@ -59,16 +59,16 @@ namespace WPF_Project
 
         private void dat_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
-            try
-            {
-                actualDaySelected.notes = DayNotes.Text;
+            //try
+            //{
+            //    actualDaySelected.notes = DayNotes.Text;
 
-                Week week = (Week)dat.SelectedCells[0].Item;
-                int index = dat.CurrentCell.Column.DisplayIndex;
-                Day selectedDay = week.day[index];
-                actualDaySelected = selectedDay;
-                DayNotes.Text = selectedDay.notes;
-            } catch { }
+            //    Week week = (Week)dat.SelectedCells[0].Item;
+            //    int index = dat.CurrentCell.Column.DisplayIndex;
+            //    Day selectedDay = week.day[index];
+            //    actualDaySelected = selectedDay;
+            //    DayNotes.Text = selectedDay.notes;
+            //} catch { }
         }
 
         private Month generateMonth(int yearId, int monthId)
