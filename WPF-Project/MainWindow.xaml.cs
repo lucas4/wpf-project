@@ -492,7 +492,7 @@ namespace WPF_Project
                 try
                 {
                     List<DayJson> daysJson = JsonConvert.DeserializeObject<List<DayJson>>(File.ReadAllText(dlg.FileName));
-                    if (daysJson != null)
+                    if (daysJson != null && daysJson.Count > 0)
                         loadImportedData(daysJson);
                     else
                         MessageBox.Show("ERROR : File is empty!", "WPF-Calendar");
