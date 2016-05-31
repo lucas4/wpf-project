@@ -43,8 +43,8 @@ namespace WPF_Project
                 {
                     EventsList.Items.Filter = delegate(object obj)
                     {
-                        Note note = (Note)obj;
-                        if (note.date > DateFrom.SelectedDate && note.date < DateTo.SelectedDate)
+                        EventDay eventT = (EventDay)obj;
+                        if (eventT.date > DateFrom.SelectedDate && eventT.date < DateTo.SelectedDate)
                             return true;
                         else
                             return false;
@@ -54,8 +54,8 @@ namespace WPF_Project
                 {
                     EventsList.Items.Filter = delegate(object obj)
                     {
-                        Note note = (Note)obj;
-                        if (note.date > DateFrom.SelectedDate)
+                        EventDay eventT = (EventDay)obj;
+                        if (eventT.date > DateFrom.SelectedDate)
                             return true;
                         else
                             return false;
