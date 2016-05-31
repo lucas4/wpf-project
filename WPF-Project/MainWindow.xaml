@@ -9,6 +9,23 @@
         Icon="Assets/calendar_icon.ico"
         Title="WPF-Calendar" Height="650" Width="1000">
     <Window.Resources>
+        <DataTemplate x:Key="EventDataTemplate">
+            <Border Margin="5" BorderThickness="1" BorderBrush="SteelBlue" CornerRadius="4">
+                <Grid Margin="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock FontWeight="Bold" Text="{Binding Path=date, ConverterCulture='pl-PL', StringFormat='dddd, dd MMMM yyyy   '}"/>
+
+                    <TextBlock Grid.Column="1" Text="{Binding Path=name}"  TextWrapping="Wrap"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
 
         <Style x:Key="BorderDayStyle" TargetType="{x:Type Border}">
@@ -165,8 +182,15 @@
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
+                <GroupBox Grid.Row="2" Header="Wydarzenia dzisiaj">
+                    <ListBox Name="TodayEvents" ItemTemplate="{StaticResource EventDataTemplate}" ScrollViewer.CanContentScroll="False">
+
+                    </ListBox>
+                </GroupBox>
             </StackPanel>
+
         </Grid>
+        
         <Grid Grid.Column="1" Background="{DynamicResource RightSideBackground}">
             <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                 <Button Content="&#xe802; Pokaż notatki" x:Name="ShowNotesButton"  Click="ShowNotesButton_Click" Style="{DynamicResource RightSideButtonStyle}" />
