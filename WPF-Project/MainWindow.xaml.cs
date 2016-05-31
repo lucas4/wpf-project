@@ -348,9 +348,39 @@ namespace WPF_Project
             {
                 using (StreamWriter file = File.CreateText(dlg.FileName))
                 {
-                    ///Zapisywać też eventy
+                    List<DateTime> dateList = new List<DateTime>();
+                    foreach (var date in noteList.Select(n => n.date).Distinct())
+                    {
+                        dateList.Add(date);
+                    }
+
+                    foreach (var date in eventList.Select(ev => ev.date).Distinct())
+                    {
+                        dateList.Add(date);
+                    }
+                    dateList = dateList.Distinct().ToList();
+                    List<DayJson> daysList = new List<DayJson>();
+
+                    foreach (var date in dateList)
+                    {
+                        DayJson day = new DayJson(date);
+                        List<Note> noteTemp = new List<Note>();
+                        List<EventDay> eventTemp = new List<EventDay>();
+                        foreach(var note in noteList.Where(n => n.date == date))
+                        {
+                            noteTemp.Add(note);
+                        }
+                        day.noteList = noteTemp;
+                        foreach(var events in eventList.Where(ev => ev.date == date))
+                        {
+                            eventTemp.Add(events);
+                        }
+                        day.eventsList = eventTemp;
+                        daysList.Add(day);
+                    }
+
                     JsonSerializer serializer = new JsonSerializer();
-                    serializer.Serialize(file, noteList);
+                    serializer.Serialize(file, daysList);
                 }
             }
 
@@ -366,8 +396,7 @@ namespace WPF_Project
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             if(dlg.ShowDialog() == true)
             {
-                /// WCZYTUJE -> DOKOŃCZYC ŁADOWANIE DANCH
-                List<Note> notes = JsonConvert.DeserializeObject<List<Note>>(File.ReadAllText(dlg.FileName));
+                List<DayJson> daysJson = JsonConvert.DeserializeObject<List<DayJson>>(File.ReadAllText(dlg.FileName));
             }
         }
     }
