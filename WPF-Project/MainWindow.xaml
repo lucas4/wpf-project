@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_Project"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="MainWindow" Height="650" Width="800">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
@@ -46,8 +47,8 @@
                     <Button Grid.Column="2" Name="NextMonthButton" Click="NextMonthButton_Click" Style="{DynamicResource PrevNextButtonStyle}" Content="Następny miesiąc" />
                 </Grid>
         </StackPanel>
-        <StackPanel Grid.Row="1">
-            <DataGrid x:Name="dat" AutoGenerateColumns="False" Grid.Column="0" ColumnWidth="*" RowHeight="80" CellStyle="{StaticResource MyDataGridCell}" SelectedCellsChanged="dat_SelectedCellsChanged" SelectionUnit="Cell" SelectionMode="Single" IsReadOnly="True" HeadersVisibility="Column" GridLinesVisibility="None">
+        <StackPanel Grid.Row="1" Margin="5">
+            <DataGrid x:Name="dat" BorderThickness="0" AutoGenerateColumns="False" Grid.Column="0" ColumnWidth="*" RowHeight="80" CellStyle="{StaticResource MyDataGridCell}" SelectedCellsChanged="dat_SelectedCellsChanged" SelectionUnit="Cell" SelectionMode="Single" IsReadOnly="True" HeadersVisibility="Column"  GridLinesVisibility="None" Style="{DynamicResource MyDataGridStyle}">
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Dodaj wydarzenie" Click="AddEvent_Click">

@@ -242,44 +242,48 @@ namespace WPF_Project
 
         private void AddEvent_Click(object sender, RoutedEventArgs e)
         {
-            var menuItem = (MenuItem)sender;
-            var contextMenu = (ContextMenu)menuItem.Parent;
-            var item = (DataGrid)contextMenu.PlacementTarget;
-            var index = item.CurrentCell.Column.DisplayIndex;
+            try {
+                var menuItem = (MenuItem)sender;
+                var contextMenu = (ContextMenu)menuItem.Parent;
+                var item = (DataGrid)contextMenu.PlacementTarget;
+                var index = item.CurrentCell.Column.DisplayIndex;
 
-            var week = (Week)item.SelectedCells[0].Item;
-            var day = week.day[index];
-            if (day != null)
-            {
-                AddEventDlg dlg = new AddEventDlg();
-                dlg.DateText = day.date.ToShortDateString();
-                if (dlg.ShowDialog() == true)
+                var week = (Week)item.SelectedCells[0].Item;
+                var day = week.day[index];
+                if (day != null)
                 {
-                    eventList.Add(new EventDay(day.date, dlg.TitleText, dlg.DescriptionText));
-                    day.hasEvents = true;
-                    dat.Items.Refresh();
+                    AddEventDlg dlg = new AddEventDlg();
+                    dlg.DateText = day.date.ToShortDateString();
+                    if (dlg.ShowDialog() == true)
+                    {
+                        eventList.Add(new EventDay(day.date, dlg.TitleText, dlg.DescriptionText));
+                        day.hasEvents = true;
+                        dat.Items.Refresh();
+                    }
                 }
-            }
+            } catch { }
         }
         private void AddNote_Click(object sender, RoutedEventArgs e)
         {
-            var menuItem = (MenuItem)sender;
-            var contextMenu = (ContextMenu)menuItem.Parent;
-            var item = (DataGrid)contextMenu.PlacementTarget;
-            var index = item.CurrentCell.Column.DisplayIndex;
+            try {
+                var menuItem = (MenuItem)sender;
+                var contextMenu = (ContextMenu)menuItem.Parent;
+                var item = (DataGrid)contextMenu.PlacementTarget;
+                var index = item.CurrentCell.Column.DisplayIndex;
 
-            var week = (Week)item.SelectedCells[0].Item;
-            var day = week.day[index];
-            if (day != null)
-            {
-                AddNoteDlg dlg = new AddNoteDlg();
-                if (dlg.ShowDialog() == true)
+                var week = (Week)item.SelectedCells[0].Item;
+                var day = week.day[index];
+                if (day != null)
                 {
-                    noteList.Add(new Note(day.date, dlg.NoteContent));
-                    day.hasNotes = true;
-                    dat.Items.Refresh();
+                    AddNoteDlg dlg = new AddNoteDlg();
+                    if (dlg.ShowDialog() == true)
+                    {
+                        noteList.Add(new Note(day.date, dlg.NoteContent));
+                        day.hasNotes = true;
+                        dat.Items.Refresh();
+                    }
                 }
-            }
+            } catch { }
         }
 
         private void ShowNotesButton_Click(object sender, RoutedEventArgs e)
