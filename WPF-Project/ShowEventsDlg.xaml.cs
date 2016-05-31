@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,26 +15,24 @@ using System.Windows.Shapes;
 namespace WPF_Project
 {
     /// <summary>
-    /// Interaction logic for ShowNoteDlg.xaml
+    /// Interaction logic for ShowEventsDlg.xaml
     /// </summary>
-    public partial class ShowNoteDlg : Window
+    public partial class ShowEventsDlg : Window
     {
-        List<Note> noteList;
+        List<EventDay> eventsList;
         Dictionary<int, Year> yearsDict;
 
-        public ShowNoteDlg()
+        public ShowEventsDlg()
         {
             InitializeComponent();
-
         }
 
-        public ShowNoteDlg(List<Note> noteList, Dictionary<int, Year> yearsDict)
+        public ShowEventsDlg(List<EventDay> events, Dictionary<int, Year> year)
         {
             InitializeComponent();
-            this.noteList = noteList.OrderBy(d => d.date).ToList();
-            this.yearsDict = yearsDict;
-            NoteList.ItemsSource = this.noteList;
-
+            eventsList = events.OrderBy(e => e.date).ToList();
+            yearsDict = year;
+            EventsList.ItemsSource = this.eventsList;
         }
 
         private void FilterButton_Click(object sender, RoutedEventArgs e)
@@ -44,10 +41,10 @@ namespace WPF_Project
             {
                 if (DateTo.SelectedDate != null)
                 {
-                    NoteList.Items.Filter = delegate(object obj)
+                    EventsList.Items.Filter = delegate(object obj)
                     {
-                        Note note = (Note)obj;
-                        if (note.date > DateFrom.SelectedDate && note.date < DateTo.SelectedDate)
+                        EventDay eventT = (EventDay)obj;
+                        if (eventT.date > DateFrom.SelectedDate && eventT.date < DateTo.SelectedDate)
                             return true;
                         else
                             return false;
@@ -55,10 +52,10 @@ namespace WPF_Project
                 }
                 else
                 {
-                    NoteList.Items.Filter = delegate(object obj)
+                    EventsList.Items.Filter = delegate(object obj)
                     {
-                        Note note = (Note)obj;
-                        if (note.date > DateFrom.SelectedDate)
+                        EventDay eventT = (EventDay)obj;
+                        if (eventT.date > DateFrom.SelectedDate)
                             return true;
                         else
                             return false;
@@ -69,7 +66,7 @@ namespace WPF_Project
 
         private void DeleteFilterButton_Click(object sender, RoutedEventArgs e)
         {
-            NoteList.Items.Filter = null;
+            EventsList.Items.Filter = null;
 
         }
 
@@ -77,10 +74,10 @@ namespace WPF_Project
         {
             try
             {
-                Note note = (Note)NoteList.SelectedItem;
-                Note toRemove = noteList.Where(n => n.id == note.id).Single();
+                EventDay eventT = (EventDay)EventsList.SelectedItem;
+                EventDay toRemove = eventsList.Where(n => n.id == eventT.id).Single();
 
-                int noteCount = (from n in noteList
+                int noteCount = (from n in eventsList
                                  where n.date == toRemove.date
                                  select n).Count();
                 if (noteCount == 1)
@@ -92,7 +89,7 @@ namespace WPF_Project
                         {
                             if (day.date == date)
                             {
-                                day.hasNotes = false;
+                                day.hasEvents = false;
                                 break;
                             }
 
@@ -101,16 +98,14 @@ namespace WPF_Project
 
                 }
 
-                noteList.Remove(toRemove);
-                NoteList.ItemsSource = noteList;
-                NoteList.Items.Refresh();
+                eventsList.Remove(toRemove);
+                EventsList.ItemsSource = eventsList;
+                EventsList.Items.Refresh();
             }
             catch
             {
 
             }
-
         }
-
     }
 }

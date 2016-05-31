@@ -15,6 +15,12 @@ namespace WPF_Project
         {
             monthsDict = new Dictionary<int, Month>();
         }
+
+        public Year(int id)
+        {
+            YearID = id;
+            monthsDict = new Dictionary<int, Month>();
+        }
     }
 
 }

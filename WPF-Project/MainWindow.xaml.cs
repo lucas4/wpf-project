@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -24,7 +25,6 @@ namespace WPF_Project
     /// </summary>
     public partial class MainWindow : Window
     {
-        //static List<Month> monthsList;
         static Dictionary<int, Year> yearsDict;
         static List<EventDay> eventList;
         static List<Note> noteList;
@@ -47,60 +47,113 @@ namespace WPF_Project
 
             actualDaySelected = month.getDay(todays.Day);
             actualMonthSelected = month;
-            actualYearSelected = new Year();
-            actualYearSelected.YearID = todays.Year;
+            actualYearSelected = new Year(todays.Year);
 
             yearsDict.Add(todays.Year, actualYearSelected);
             yearsDict[actualYearSelected.YearID].monthsDict.Add(todays.Month, month);
 
             MonthBlock.Text = month.MonthNames[month.MonthID] + " " + month.MonthYear;
             dat.ItemsSource = month.Weeks;
-            
+
 
         }
 
-        private void dat_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        /// <summary>
+        /// Import danych JSON, stworzenie nowego kalendarza i wyświetlenie obecnego miesiąca
+        /// </summary>
+        /// <param name="data"></param>
+        public void loadImportedData(List<DayJson> data)
         {
-            //try
-            //{
-            //    actualDaySelected.notes = DayNotes.Text;
+            yearsDict = new Dictionary<int, Year>();
+            eventList = new List<EventDay>();
+            noteList = new List<Note>();
+            dat.ItemsSource = null;
 
-            //    Week week = (Week)dat.SelectedCells[0].Item;
-            //    int index = dat.CurrentCell.Column.DisplayIndex;
-            //    Day selectedDay = week.day[index];
-            //    actualDaySelected = selectedDay;
-            //    DayNotes.Text = selectedDay.notes;
-            //} catch { }
-        }
-
-        private async Task<bool> setBackgroundAsync()
-        {
-            try {
-                Bing BingImgInfo;
-                using (var httpClient = new HttpClient())
-                {
-                    var json = await httpClient.GetStringAsync("http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US");
-                    BingImgInfo = JsonConvert.DeserializeObject<Bing>(json);
-                }
-
-                var image = new Image();
-                var fullFilePath = @"http://www.bing.com" + BingImgInfo.images[0].url;
-
-                BitmapImage bitmap = new BitmapImage();
-                bitmap.BeginInit();
-                bitmap.UriSource = new Uri(fullFilePath, UriKind.Absolute);
-                bitmap.EndInit();
-
-                image.Source = bitmap;
-                this.Background = new ImageBrush(image.Source);
-                return true;
-            }
-            catch
+            foreach (var date in data.Select(d => d.date))
             {
-                return false;
+                if (!yearsDict.ContainsKey(date.Year))
+                {
+                    Year yearTemp = new Year(date.Year);
+                    Month monthTemp = generateMonth(date.Year, date.Month);
+                    yearTemp.monthsDict.Add(date.Month, monthTemp);
+                    yearsDict.Add(date.Year, yearTemp);
+                }
+                else
+                {
+                    if (!yearsDict[date.Year].monthsDict.ContainsKey(date.Month))
+                    {
+                        Month monthTemp = generateMonth(date.Year, date.Month);
+                        yearsDict[date.Year].monthsDict.Add(date.Month, monthTemp);
+                    }
+                }
             }
+
+            foreach (var datas in data)
+            {
+                if (datas.eventsList.Count > 0)
+                    yearsDict[datas.date.Year].monthsDict[datas.date.Month].getDay(datas.date.Day).hasEvents = true;
+
+                if (eventList.Count <= 0)
+                {
+                    eventList = datas.eventsList;
+                }
+                else
+                    eventList = eventList.Concat(datas.eventsList).ToList();
+            }
+
+            foreach (var datas in data)
+            {
+                if (datas.noteList.Count > 0)
+                    yearsDict[datas.date.Year].monthsDict[datas.date.Month].getDay(datas.date.Day).hasNotes = true;
+
+                if (noteList.Count <= 0)
+                {
+                    noteList = datas.noteList;
+                }
+                else
+                    noteList = noteList.Concat(datas.noteList).ToList();
+            }
+
+            DateTime todays = DateTime.Now;
+            if (yearsDict.ContainsKey(todays.Year))
+            {
+                if (yearsDict[todays.Year].monthsDict.ContainsKey(todays.Month))
+                {
+                    actualDaySelected = yearsDict[todays.Year].monthsDict[todays.Month].getDay(todays.Day);
+                    actualMonthSelected = yearsDict[todays.Year].monthsDict[todays.Month];
+                    actualYearSelected = yearsDict[todays.Year];
+                }
+                else
+                {
+                    Month month = generateMonth(todays.Year, todays.Month);
+                    actualDaySelected = month.getDay(todays.Day);
+                    actualMonthSelected = month;
+                    yearsDict[actualYearSelected.YearID].monthsDict.Add(todays.Month, month);
+
+                }
+            }
+            else
+            {
+                Month month = generateMonth(todays.Year, todays.Month);
+                actualDaySelected = month.getDay(todays.Day);
+                actualMonthSelected = month;
+                actualYearSelected = new Year(todays.Year);
+
+                yearsDict.Add(todays.Year, actualYearSelected);
+                yearsDict[actualYearSelected.YearID].monthsDict.Add(todays.Month, month);
+            }
+
+            MonthBlock.Text = actualMonthSelected.MonthNames[actualMonthSelected.MonthID] + " " + actualMonthSelected.MonthYear;
+            dat.ItemsSource = actualMonthSelected.Weeks;
+
         }
 
+        /// <summary>
+        /// Wygenerowanie miesiąca dla określonego roku oraz numeru miesiąca
+        /// </summary>
+        /// <param name="yearId"></param>
+        /// <param name="monthId"></param>
+        /// <returns></returns>
         private Month generateMonth(int yearId, int monthId)
         {
             Month month = new Month();
@@ -130,7 +183,7 @@ namespace WPF_Project
 
             month.MonthID = monthId;
             month.MonthYear = yearId;
-            DateTime date = new DateTime(yearId, monthId,1);
+            DateTime date = new DateTime(yearId, monthId, 1);
             month.Name = date.ToString("MMM", CultureInfo.InvariantCulture);
             month.Weeks = weeks;
             return month;
@@ -151,6 +204,11 @@ namespace WPF_Project
             return new Note();
         }
 
+        /// <summary>
+        /// Wyświetlenie poprzedniego miesiąca
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PreviousMonthButton_Click(object sender, RoutedEventArgs e)
         {
             Year searchedYear;
@@ -210,6 +268,11 @@ namespace WPF_Project
             MonthBlock.Text = actualMonthSelected.MonthNames[actualMonthSelected.MonthID] + " " + actualYearSelected.YearID;
         }
 
+        /// <summary>
+        /// Wyświetlenie następnego miesiąca
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NextMonthButton_Click(object sender, RoutedEventArgs e)
         {
             Year searchedYear;
@@ -267,55 +330,67 @@ namespace WPF_Project
             actualMonthSelected = searchMonth;
             actualYearSelected = searchedYear;
             MonthBlock.Text = actualMonthSelected.MonthNames[actualMonthSelected.MonthID] + " " + actualYearSelected.YearID;
-            
+
         }
 
+        /// <summary>
+        /// Dodanie wydarzenia
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddEvent_Click(object sender, RoutedEventArgs e)
         {
-            try {
-                var menuItem = (MenuItem)sender;
-                var contextMenu = (ContextMenu)menuItem.Parent;
-                var item = (DataGrid)contextMenu.PlacementTarget;
-                var index = item.CurrentCell.Column.DisplayIndex;
+            var menuItem = (MenuItem)sender;
+            var contextMenu = (ContextMenu)menuItem.Parent;
+            var item = (DataGrid)contextMenu.PlacementTarget;
+            var index = item.CurrentCell.Column.DisplayIndex;
 
-                var week = (Week)item.SelectedCells[0].Item;
-                var day = week.day[index];
-                if (day != null)
+            var week = (Week)item.SelectedCells[0].Item;
+            var day = week.day[index];
+            if (day != null)
+            {
+                AddEventDlg dlg = new AddEventDlg();
+                dlg.DateText = day.date.ToShortDateString();
+                if (dlg.ShowDialog() == true)
                 {
-                    AddEventDlg dlg = new AddEventDlg();
-                    dlg.DateText = day.date.ToShortDateString();
-                    if (dlg.ShowDialog() == true)
-                    {
-                        eventList.Add(new EventDay(day.date, dlg.TitleText, dlg.DescriptionText));
-                        day.hasEvents = true;
-                        dat.Items.Refresh();
-                    }
+                    eventList.Add(new EventDay(day.date, dlg.TitleText, dlg.DescriptionText));
+                    day.hasEvents = true;
+                    dat.Items.Refresh();
                 }
-            } catch { }
+            }
         }
+
+        /// <summary>
+        /// Dodanie notatki
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddNote_Click(object sender, RoutedEventArgs e)
         {
-            try {
-                var menuItem = (MenuItem)sender;
-                var contextMenu = (ContextMenu)menuItem.Parent;
-                var item = (DataGrid)contextMenu.PlacementTarget;
-                var index = item.CurrentCell.Column.DisplayIndex;
+            var menuItem = (MenuItem)sender;
+            var contextMenu = (ContextMenu)menuItem.Parent;
+            var item = (DataGrid)contextMenu.PlacementTarget;
+            var index = item.CurrentCell.Column.DisplayIndex;
 
-                var week = (Week)item.SelectedCells[0].Item;
-                var day = week.day[index];
-                if (day != null)
+            var week = (Week)item.SelectedCells[0].Item;
+            var day = week.day[index];
+            if (day != null)
+            {
+                AddNoteDlg dlg = new AddNoteDlg();
+                if (dlg.ShowDialog() == true)
                 {
-                    AddNoteDlg dlg = new AddNoteDlg();
-                    if (dlg.ShowDialog() == true)
-                    {
-                        noteList.Add(new Note(day.date, dlg.NoteContent));
-                        day.hasNotes = true;
-                        dat.Items.Refresh();
-                    }
+                    noteList.Add(new Note(day.date, dlg.NoteContent));
+                    day.hasNotes = true;
+                    dat.Items.Refresh();
                 }
-            } catch { }
+            }
         }
 
+        /// <summary>
+        /// Okno dialogowe notatek
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ShowNotesButton_Click(object sender, RoutedEventArgs e)
         {
             ShowNoteDlg dlg = new ShowNoteDlg(noteList, yearsDict);
@@ -326,16 +401,141 @@ namespace WPF_Project
             dat.Items.Refresh();
         }
 
+        /// <summary>
+        /// Okno dialogowe wydarzeń
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ShowEventsButton_Click(object sender, RoutedEventArgs e)
         {
+            ShowEventsDlg dlg = new ShowEventsDlg(eventList, yearsDict);
+            if (dlg.ShowDialog() == true)
+            {
+
+            }
+            dat.Items.Refresh();
+        }
+
+        /// <summary>
+        /// Eksport do pliku danych typu JSON
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExportDataButton_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.Filter = "Archiwum Kalendarza (*.json)|*.json";
+            if (dlg.ShowDialog() == true)
+            {
+                using (StreamWriter file = File.CreateText(dlg.FileName))
+                {
+                    List<DateTime> dateList = new List<DateTime>();
+                    foreach (var date in noteList.Select(n => n.date).Distinct())
+                    {
+                        dateList.Add(date);
+                    }
+
+                    foreach (var date in eventList.Select(ev => ev.date).Distinct())
+                    {
+                        dateList.Add(date);
+                    }
+                    dateList = dateList.Distinct().ToList();
+                    List<DayJson> daysList = new List<DayJson>();
+
+                    foreach (var date in dateList)
+                    {
+                        DayJson day = new DayJson(date);
+                        List<Note> noteTemp = new List<Note>();
+                        List<EventDay> eventTemp = new List<EventDay>();
+                        foreach (var note in noteList.Where(n => n.date == date))
+                        {
+                            noteTemp.Add(note);
+                        }
+                        day.noteList = noteTemp;
+                        foreach (var events in eventList.Where(ev => ev.date == date))
+                        {
+                            eventTemp.Add(events);
+                        }
+                        day.eventsList = eventTemp;
+                        daysList.Add(day);
+                    }
+
+                    JsonSerializer serializer = new JsonSerializer();
+                    serializer.Serialize(file, daysList);
+                }
+            }
 
         }
 
+        /// <summary>
+        /// Import z pliku danych typu JSON
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ImportDataButton_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.Filter = "Archiwum Kalendarza (*.json)|*.json";
+            if (dlg.ShowDialog() == true)
+            {
+                try
+                {
+                    List<DayJson> daysJson = JsonConvert.DeserializeObject<List<DayJson>>(File.ReadAllText(dlg.FileName));
+                    if (daysJson != null && daysJson.Count > 0)
+                        loadImportedData(daysJson);
+                    else
+                        MessageBox.Show("ERROR : File is empty!", "WPF-Calendar");
+                }
+                catch
+                {
+                    MessageBox.Show("ERROR : Wrong data!", "WPF-Calendar");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Pobiera aktualny obrazek z BingPicture
+        /// </summary>
+        /// <returns><c>True</c> jeśli uda się pobrać obrazek,<c>False</c> w przypadku błędu lub braku aktualnego obrazka.</returns>
+        private async Task<bool> setBackgroundAsync()
+        {
+            try
+            {
+                Bing BingImgInfo;
+                using (var httpClient = new HttpClient())
+                {
+                    var json = await httpClient.GetStringAsync("http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US");
+                    BingImgInfo = JsonConvert.DeserializeObject<Bing>(json);
+                }
+
+                var image = new Image();
+                var fullFilePath = @"http://www.bing.com" + BingImgInfo.images[0].url;
+
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(fullFilePath, UriKind.Absolute);
+                bitmap.EndInit();
+
+                image.Source = bitmap;
+                this.Background = new ImageBrush(image.Source);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Zmienia tło aplikacji oraz style
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void ChangeStyle_Click(object sender, RoutedEventArgs e)
         {
             if (ChangeStyle.IsChecked == true)
             {
-                if(await setBackgroundAsync() == true)
+                if (await setBackgroundAsync() == true)
                     Application.Current.Resources["DayTextForeground"] = Application.Current.Resources["White"];
             }
             else
@@ -347,5 +547,5 @@ namespace WPF_Project
     }
 
 
-    
+
 }

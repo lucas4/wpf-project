@@ -7,25 +7,7 @@
     <SolidColorBrush x:Key="Black">Black</SolidColorBrush>
     <SolidColorBrush x:Key="RightSideBackground">White</SolidColorBrush>
     <SolidColorBrush x:Key="DayTextForeground">Black</SolidColorBrush>
-    
-    <Style x:Key="MothTextBlockStyle" TargetType="{x:Type TextBlock}">
-        <Setter Property="TextWrapping" Value="NoWrap"/>
-        <Setter Property="TextTrimming" Value="None"/>
-        <Setter Property="FontFamily" Value="OpenSans"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="TextAlignment" Value="Center"/>
-        <Setter Property="Foreground" Value="Black"/>
-    </Style>
-    <Style x:Key="DayTextStyle" TargetType="{x:Type TextBlock}">
-        <Setter Property="TextWrapping" Value="NoWrap"/>
-        <Setter Property="TextTrimming" Value="None"/>
-        <Setter Property="FontFamily" Value="OpenSans"/>
-        <Setter Property="FontSize" Value="20"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
-        <Setter Property="TextAlignment" Value="Center"/>
 
-    </Style>
     <Style x:Key="FocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
@@ -35,11 +17,34 @@
             </Setter.Value>
         </Setter>
     </Style>
-
+    
+    <!-- TextBox with month -->
+    <Style x:Key="MothTextBlockStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="TextTrimming" Value="None"/>
+        <Setter Property="FontFamily" Value="OpenSans"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="Black"/>
+    </Style>
+    
+    <!-- Style for single day -->
+    <Style x:Key="DayTextStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="TextTrimming" Value="None"/>
+        <Setter Property="FontFamily" Value="OpenSans"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+    
+    
+    <!-- Small icon button -->
     <Style x:Key="OpenListButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource RightSideBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource DayTextForeground}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="FontFamily" Value="{DynamicResource Fontello}" />
@@ -65,7 +70,8 @@
             </Setter.Value>
         </Setter>
     </Style>
-
+    
+    <!-- Prev/next button style -->
     <Style x:Key="PrevNextButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
         <Setter Property="Background" Value="{DynamicResource RightSideBackground}"/>
@@ -95,7 +101,8 @@
             </Setter.Value>
         </Setter>
     </Style>
-
+    
+    <!-- Style for right panel buttons -->
     <Style x:Key="RightSideButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -127,6 +134,7 @@
         </Setter>
     </Style>
 
+    <!-- ContentMenu Item Style -->
     <Style x:Key="MenuItemIconStyle" TargetType="{x:Type TextBlock}">
         <Setter Property="TextWrapping" Value="NoWrap"/>
         <Setter Property="TextTrimming" Value="None"/>
@@ -152,7 +160,6 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
     <Style x:Key="MyDataGridStyle" TargetType="{x:Type DataGrid}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="RowBackground" Value="Transparent" />
@@ -211,7 +218,6 @@
             </MultiTrigger>
         </Style.Triggers>
     </Style>
-    
     <Style x:Key="ColumnHeaderGripperStyle" TargetType="{x:Type Thumb}">
         <Setter Property="Width" Value="5" />
         <Setter Property="Cursor" Value="SizeWE" />
@@ -260,6 +266,69 @@
         </Setter>
     </Style>
     <!-- end:DataGridStyle -->
-    
-    
+
+    <!-- Bing CheckBox Style-->
+    <Style x:Key="CheckBoxChangeStyle" TargetType="{x:Type CheckBox}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="#FF106EBE"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontFamily" Value="{DynamicResource Fontello}" />
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid x:Name="checkBoxBorder" Margin="12" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <Grid x:Name="markGrid" VerticalAlignment="Center">
+                                <TextBlock Text="&#xe80a;" x:Name="markChecked" FontSize="14" />
+                                <TextBlock Text="&#xe809;" x:Name="markUnchecked" FontSize="14" />
+                            </Grid>
+                            <ContentPresenter x:Name="contentPresenter" Grid.Column="1" Margin="18,0,0,0" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HasContent" Value="true">
+                            <Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}"/>
+                            <Setter Property="Padding" Value="4,1,0,0"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="Opacity" TargetName="markChecked" Value="1"/>
+                            <Setter Property="Opacity" TargetName="markUnchecked" Value="0"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="false">
+                            <Setter Property="Opacity" TargetName="markChecked" Value="0"/>
+                            <Setter Property="Opacity" TargetName="markUnchecked" Value="1"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" TargetName="templateRoot" Value="#FFF3F3F3"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#FF0B4D85"/>
+                            <Setter Property="Background" TargetName="templateRoot" Value="Gainsboro"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="OptionMarkFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle Margin="14,0,0,0" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_Project"
         mc:Ignorable="d"
+        Icon="Assets/calendar_icon.ico"
         WindowStartupLocation="CenterScreen"
         Title="Dodaj wydarzenie" Width="341" SizeToContent="Height" Loaded="Window_Loaded">
     <Grid>

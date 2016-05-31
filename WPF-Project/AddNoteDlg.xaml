@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_Project"
         mc:Ignorable="d"
+        Icon="Assets/calendar_icon.ico"
         WindowStartupLocation="CenterScreen"
         Title="Dodaj notatkę" Width="341" SizeToContent="Height">
     <Grid>
@@ -19,7 +20,7 @@
         </Grid.ColumnDefinitions>
 
         <Label Margin="3" Grid.Column="0" Grid.Row="1">Treść</Label>
-        <TextBox x:Name="TextBoxContent" Margin="3" Grid.Column="1" Grid.Row="1" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="TextBoxContent" Margin="3" Grid.Column="1" Grid.Row="1" VerticalContentAlignment="Center" AcceptsReturn="True"/>
         
         <Grid HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="2" Grid.IsSharedSizeScope="True">
             <Grid.ColumnDefinitions>
