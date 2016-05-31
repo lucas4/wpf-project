@@ -73,6 +73,12 @@ namespace WPF_Project
             //} catch { }
         }
 
+        /// <summary>
+        /// Wygenerowanie miesiąca dla określonego roku oraz numeru miesiąca
+        /// </summary>
+        /// <param name="yearId"></param>
+        /// <param name="monthId"></param>
+        /// <returns></returns>
         private Month generateMonth(int yearId, int monthId)
         {
             Month month = new Month();
@@ -123,6 +129,11 @@ namespace WPF_Project
             return new Note();
         }
 
+        /// <summary>
+        /// Wyświetlenie poprzedniego miesiąca
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PreviousMonthButton_Click(object sender, RoutedEventArgs e)
         {
             Year searchedYear;
@@ -182,6 +193,11 @@ namespace WPF_Project
             MonthBlock.Text = actualMonthSelected.MonthNames[actualMonthSelected.MonthID] + " " + actualYearSelected.YearID;
         }
 
+        /// <summary>
+        /// Wyświetlenie następnego miesiąca
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NextMonthButton_Click(object sender, RoutedEventArgs e)
         {
             Year searchedYear;
@@ -242,6 +258,11 @@ namespace WPF_Project
             
         }
 
+        /// <summary>
+        /// Dodanie wydarzenia
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddEvent_Click(object sender, RoutedEventArgs e)
         {
             var menuItem = (MenuItem)sender;
@@ -263,6 +284,12 @@ namespace WPF_Project
                 }
             }
         }
+
+        /// <summary>
+        /// Dodanie notatki
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddNote_Click(object sender, RoutedEventArgs e)
         {
             var menuItem = (MenuItem)sender;
@@ -284,6 +311,11 @@ namespace WPF_Project
             }
         }
 
+        /// <summary>
+        /// Okno dialogowe notatek
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ShowNotesButton_Click(object sender, RoutedEventArgs e)
         {
             ShowNoteDlg dlg = new ShowNoteDlg(noteList, yearsDict);
@@ -294,11 +326,21 @@ namespace WPF_Project
             dat.Items.Refresh();
         }
 
+        /// <summary>
+        /// Okno dialogowe wydarzeń
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ShowEventsButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Eksport do pliku danych typu JSON
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ExportDataButton_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
@@ -306,6 +348,7 @@ namespace WPF_Project
             {
                 using (StreamWriter file = File.CreateText(dlg.FileName))
                 {
+                    ///Zapisywać też eventy
                     JsonSerializer serializer = new JsonSerializer();
                     serializer.Serialize(file, noteList);
                 }
@@ -313,11 +356,17 @@ namespace WPF_Project
 
         }
 
+        /// <summary>
+        /// Import z pliku danych typu JSON
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ImportDataButton_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             if(dlg.ShowDialog() == true)
             {
+                /// WCZYTUJE -> DOKOŃCZYC ŁADOWANIE DANCH
                 List<Note> notes = JsonConvert.DeserializeObject<List<Note>>(File.ReadAllText(dlg.FileName));
             }
         }
