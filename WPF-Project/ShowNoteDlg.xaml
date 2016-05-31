@@ -11,7 +11,7 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <TextBlock FontWeight="Bold" Text="{Binding Path=date}"/>
-                    <TextBlock Grid.Row="1" Text="{Binding Path=shortContent}"/>
+                    <TextBlock Grid.Row="1" Text="{Binding Path=content, Converter={StaticResource stringLengthConverter}, ConverterParameter=20}"  TextWrapping="Wrap"/>
                 </Grid>
             </Border>
         </DataTemplate>
@@ -36,7 +36,6 @@
             <Button Name="FilterButton" Click="FilterButton_Click">Filtruj</Button>
             <Button Name="DeleteFilterButton" Click="DeleteFilterButton_Click">Usuń Filtr</Button>
             <Separator/>
-            <Button Name="SaveButton" Click="SaveButton_Click">Zapisz</Button>
             <Button Name="DeleteButton" Click="DeleteButton_Click">Usuń</Button>
         </ToolBar>
         <ListBox Grid.Row="1" Name="NoteList" HorizontalContentAlignment="Stretch"

@@ -21,6 +21,7 @@ namespace WPF_Project
     public partial class ShowNoteDlg : Window
     {
         List<Note> noteList;
+
         public ShowNoteDlg()
         {
             InitializeComponent();
@@ -69,14 +70,6 @@ namespace WPF_Project
 
         }
 
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            Note note = (Note)NoteList.SelectedItem;
-            Note toEdit = noteList.Where(n => n.id == note.id).Single();
-            toEdit.changeContent(NoteBox.Text);
-            NoteList.Items.Refresh();
-        }
-
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             Note note = (Note)NoteList.SelectedItem;
@@ -85,5 +78,6 @@ namespace WPF_Project
             NoteList.Items.Refresh();
             
         }
+
     }
 }
