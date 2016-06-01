@@ -34,6 +34,7 @@ namespace WPF_Project
         static Day actualDaySelected;
 
         static double loadingOpacity = 0.4;
+        static int alertTimer = 0;
 
         public MainWindow()
         {
@@ -582,6 +583,17 @@ namespace WPF_Project
                 TodayEvents.Visibility = Visibility.Visible;
             else
                 TodayEvents.Visibility = Visibility.Collapsed;
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsDlg dlg = new SettingsDlg(alertTimer);
+            this.Opacity = loadingOpacity;
+            if (dlg.ShowDialog() == true)
+            {
+                alertTimer = dlg.settingAlert;
+            }
+            this.Opacity = 1;
         }
     }
 

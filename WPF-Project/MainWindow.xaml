@@ -175,6 +175,7 @@
                 <Button Content="&#xe801; Pokaż wydarzenia" x:Name="ShowEventsButton" Click="ShowEventsButton_Click" Style="{DynamicResource RightSideButtonStyle}" />
                 <Button Content="&#xe806; Eksport danych" x:Name="ExportDataButton" Click="ExportDataButton_Click" Style="{DynamicResource RightSideButtonStyle}" />
                 <Button Content="&#xe805; Import danych" x:Name="ImportDataButton" Click="ImportDataButton_Click" Style="{DynamicResource RightSideButtonStyle}" />
+                <Button Content="&#xe801; Ustawienia" x:Name="SettingsButton" Click="SettingsButton_Click" Style="{DynamicResource RightSideButtonStyle}" />
                 <CheckBox Content="Tło Bing" x:Name="ChangeStyle" Click="ChangeStyle_Click" IsChecked="False" Style="{DynamicResource CheckBoxChangeStyle}" />
                 <CheckBox Content="Dzisiejsze wydarzenia" x:Name="ShowTodayEventsButton" Click="ShowTodayEventsButton_Click" IsChecked="False" IsEnabled="False" Style="{DynamicResource CheckBoxTodayEvents}" />
                 
