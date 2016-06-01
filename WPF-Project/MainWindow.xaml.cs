@@ -636,6 +636,11 @@ namespace WPF_Project
             resetEvent.Set();
             //Thread.CurrentThread.Abort();
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ///Dopilnować zamknięcia wątku alertu
+        }
     }
 
 

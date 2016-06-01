@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Icon="Assets/calendar_icon.ico"
-        Title="WPF-Calendar" Height="650" Width="1000">
+        Title="WPF-Calendar" Height="650" Width="1000"
+        Closing="Window_Closing">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
         <Style x:Key="BorderDayStyle" TargetType="{x:Type Border}">
