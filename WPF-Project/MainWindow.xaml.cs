@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,9 +36,13 @@ namespace WPF_Project
 
         static double loadingOpacity = 0.4;
         static int alertTimer = 0;
+        static bool stopAlertThread = false;
 
         public MainWindow()
         {
+            int myThreadId = Thread.CurrentThread.ManagedThreadId;
+            Console.WriteLine("Started main thread. ID : " + myThreadId);
+
             InitializeComponent();
             yearsDict = new Dictionary<int, Year>();
             dat.SelectionMode = DataGridSelectionMode.Single;
@@ -59,6 +64,7 @@ namespace WPF_Project
             dat.ItemsSource = month.Weeks;
             refreshTodayEvents();
 
+            ThreadPool.QueueUserWorkItem(new WaitCallback(AlertThread));
         }
 
         /// <summary>
@@ -594,6 +600,33 @@ namespace WPF_Project
                 alertTimer = dlg.settingAlert;
             }
             this.Opacity = 1;
+        }
+
+        private void AlertThread(object state)
+        {
+            int myThreadId = Thread.CurrentThread.ManagedThreadId;
+            Console.WriteLine("Started alert thread. ID : " + myThreadId);
+            ManualResetEvent resetEvent = new ManualResetEvent(false);
+            while (!stopAlertThread)
+            {
+                try
+                {
+                    if (alertTimer != 0)
+                    {
+                        DateTime today = DateTime.Now;
+                        var events = from e in eventList
+                                     where e.date.Year == today.Year && e.date.Month == today.Month && e.date.Day == today.Day
+                                     select e;
+
+                    }
+                    Thread.Sleep(10000);
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }         
+            resetEvent.Set();
         }
     }
 
