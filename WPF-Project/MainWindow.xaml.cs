@@ -36,7 +36,7 @@ namespace WPF_Project
 
         static double loadingOpacity = 0.4;
         static int alertTimer = 0;
-        static bool stopAlertThread = false;
+        static bool isAlertThreadRunning = false;
 
         public MainWindow()
         {
@@ -64,7 +64,7 @@ namespace WPF_Project
             dat.ItemsSource = month.Weeks;
             refreshTodayEvents();
 
-            ThreadPool.QueueUserWorkItem(new WaitCallback(AlertThread));
+            //ThreadPool.QueueUserWorkItem(new WaitCallback(AlertThread));
         }
 
         /// <summary>
@@ -593,21 +593,28 @@ namespace WPF_Project
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            SettingsDlg dlg = new SettingsDlg(alertTimer);
+            SettingsDlg dlg = new SettingsDlg(alertTimer, isAlertThreadRunning);
             this.Opacity = loadingOpacity;
             if (dlg.ShowDialog() == true)
             {
                 alertTimer = dlg.settingAlert;
+                isAlertThreadRunning = dlg.alertToRun;
+                if (isAlertThreadRunning)
+                {
+                    ThreadPool.QueueUserWorkItem(new WaitCallback(AlertThread));
+                }
             }
             this.Opacity = 1;
         }
+
+        
 
         private void AlertThread(object state)
         {
             int myThreadId = Thread.CurrentThread.ManagedThreadId;
             Console.WriteLine("Started alert thread. ID : " + myThreadId);
             ManualResetEvent resetEvent = new ManualResetEvent(false);
-            while (!stopAlertThread)
+            while (isAlertThreadRunning)
             {
                 try
                 {
@@ -625,7 +632,7 @@ namespace WPF_Project
                 {
 
                 }
-            }         
+            }
             resetEvent.Set();
         }
     }

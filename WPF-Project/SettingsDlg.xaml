@@ -1,0 +1,51 @@
+﻿<Window x:Class="WPF_Project.SettingsDlg"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_Project"
+        Title="Ustawienia" Height="150" Width="300"
+        Icon="Assets/calendar_icon.ico"
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="3">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Margin="3" Grid.Row="0">Przypomnij</Label>
+                <TextBox x:Name="AlertBox" Margin="3" Grid.Column="1" Grid.Row="0" VerticalContentAlignment="Center" />
+                <Label Margin="3" Grid.Row="0" Grid.Column="2">minut przed.</Label>
+            </Grid>
+        </StackPanel>
+
+        <Label Margin="3" Grid.Row="1">Czy włączyć przypominanie ?</Label>
+        <CheckBox Name="IsAlertRun" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"></CheckBox>
+        <Grid HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="2" Grid.IsSharedSizeScope="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="pierwsza" />
+                <ColumnDefinition SharedSizeGroup="pierwsza" />
+            </Grid.ColumnDefinitions>
+            <Button Margin="3" Padding="20, 5" IsDefault="True" x:Name="TrueButton" Click="TrueButton_Click">Ok</Button>
+            <Button Margin="3" Padding="20, 5" IsCancel="True" x:Name="CancelButton" Grid.Column="1" Click="CancelButton_Click">Anuluj</Button>
+        </Grid>
+    </Grid>
+</Window>
