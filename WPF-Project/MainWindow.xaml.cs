@@ -634,6 +634,7 @@ namespace WPF_Project
                 }
             }
             resetEvent.Set();
+            //Thread.CurrentThread.Abort();
         }
     }
 
