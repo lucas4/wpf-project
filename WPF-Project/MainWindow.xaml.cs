@@ -625,6 +625,19 @@ namespace WPF_Project
                                      where e.date.Year == today.Year && e.date.Month == today.Month && e.date.Day == today.Day
                                      select e;
 
+                        foreach (var eventt in events)
+                        {
+                            if (!eventt.alertMade)
+                            {
+                                if ((eventt.date.TimeOfDay - today.TimeOfDay).TotalMinutes <= alertTimer)
+                                {
+                                    eventt.alertMade = true;
+                                    MessageBox.Show("Przypomnienie: " + eventt.name + " w ciągu " + alertTimer + " minut!", "WPF-Calendar");
+                                }
+                            }
+
+                        }
+
                     }
                     Thread.Sleep(10000);
                 }

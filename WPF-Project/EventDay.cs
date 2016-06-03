@@ -12,6 +12,7 @@ namespace WPF_Project
         public DateTime date { get; set; }
         public string name { get; set; }
         public string description { get; set; }
+        public bool alertMade { get; set; }
         
         public EventDay(DateTime date, string name, string description)
         {
@@ -19,6 +20,7 @@ namespace WPF_Project
             this.date = date;
             this.name = name;
             this.description = description;
+            this.alertMade = false;
         }
 
         public EventDay(DateTime date, TimeSpan time, string name, string description)
@@ -28,6 +30,7 @@ namespace WPF_Project
             this.date = this.date.Add(time);
             this.name = name;
             this.description = description;
+            this.alertMade = false;
         }
 
     }
