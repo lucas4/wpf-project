@@ -72,7 +72,7 @@ namespace WPF_Project
 
         public AddEventViewModel()
         {
-            DateTime today = DateTime.Now;
+            DateTime today = DateTime.Now; 
             this.Minute = today.Minute.ToString();
             this.Hour = today.Hour.ToString();
         }

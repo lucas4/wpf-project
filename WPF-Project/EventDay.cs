@@ -10,6 +10,7 @@ namespace WPF_Project
     {
         public string id { get; set; }
         public DateTime date { get; set; }
+        public string TimeOfDay { get; set; }
         public string name { get; set; }
         public string description { get; set; }
         public bool alertMade { get; set; }
@@ -30,6 +31,7 @@ namespace WPF_Project
             this.date = this.date.Add(time);
             this.name = name;
             this.description = description;
+            this.TimeOfDay = this.date.ToString("HH:mm");
             this.alertMade = false;
         }
 

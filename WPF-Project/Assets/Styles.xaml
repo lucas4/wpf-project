@@ -407,7 +407,10 @@
     
     <DataTemplate x:Key="TodayEventDataTemplate">
         <Border Margin="15,5,5,5" Width="110" >
-            <TextBlock Text="{Binding Path=name}" TextWrapping="Wrap"/>
+            <StackPanel>
+                <TextBlock Text="{Binding Path=name}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding Path=TimeOfDay}" TextWrapping="Wrap"/>
+            </StackPanel>
         </Border>
     </DataTemplate>
     
