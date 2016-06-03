@@ -163,7 +163,7 @@ namespace WPF_Project
             List<EventDay> events = (from n in eventList
                                      where n.date.Year == today.Year && n.date.Month == today.Month && n.date.Day == today.Day
                                      select n).ToList();
-            TodayEvents.ItemsSource = events;
+            TodayEvents.ItemsSource = events.OrderBy(e => e.date);
             if (events.Count <= 0)
             {
                 ShowTodayEventsButton.IsChecked = false;
