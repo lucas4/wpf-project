@@ -72,8 +72,9 @@ namespace WPF_Project
 
         public AddEventViewModel()
         {
-            this.Minute = Convert.ToString(50);
-            this.Hour = Convert.ToString(12);
+            DateTime today = DateTime.Now;
+            this.Minute = today.Minute.ToString();
+            this.Hour = today.Hour.ToString();
         }
 
         public bool HasErrors
@@ -91,10 +92,14 @@ namespace WPF_Project
                     _hourErr = true;
                 }
                 else
-                    if (Int32.Parse(value) > 24 || Int32.Parse(value) < 0)
+                    try
                     {
-                        _hourErr = true;
+                        if (Int32.Parse(value) > 24 || Int32.Parse(value) < 0)
+                        {
+                            _hourErr = true;
+                        }
                     }
+                    catch { _hourErr = true; }
                 _hour = value;
             }
         }
@@ -110,10 +115,15 @@ namespace WPF_Project
                     _hourErr = true;
                 }
                 else
-                    if (Int32.Parse(value) > 60 || Int32.Parse(value) < 0)
+                    try
                     {
-                        _hourErr = true;
+                        if (Int32.Parse(value) > 60 || Int32.Parse(value) < 0)
+                        {
+                            _hourErr = true;
+                        }
                     }
+                    catch { _hourErr = true; }
+
                 _minute = value;
             }
         }
