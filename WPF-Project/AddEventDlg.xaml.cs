@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,31 +23,32 @@ namespace WPF_Project
         public string DateText;
         public string TitleText;
         public string DescriptionText;
+        public TimeSpan Time;
 
+        private AddEventViewModel _eventViewModel;
         public AddEventDlg()
         {
-            InitializeComponent();            
+            InitializeComponent();
+            _eventViewModel = new AddEventViewModel();
+            DataContext = _eventViewModel;
         }
 
         private void TrueButton_Click(object sender, RoutedEventArgs e)
         {
-            // add note to list
-            //if (TextBoxContent != null)
-            //{
-            //    NoteContent = TextBoxContent.Text;
-            //    DialogResult = true;
-            //}
-            //else
-            //    DialogResult = false;
-            if (TitleTextBox.Text != null && DescriptionTextBox.Text != null)
+            if (!_eventViewModel.HasErrors)
             {
-                TitleText = TitleTextBox.Text;
-                DescriptionText = DescriptionTextBox.Text;
-                DialogResult = true;
+                if (TitleTextBox.Text != null && DescriptionTextBox.Text != null)
+                {
+
+                    TitleText = _eventViewModel.Title;
+                    DescriptionText = _eventViewModel.Description;
+                    Time = new TimeSpan(Int32.Parse(_eventViewModel.Hour), Int32.Parse(_eventViewModel.Minute), 0);
+                    DialogResult = true;
+                }
+                else
+                    DialogResult = false;
+                Close();
             }
-            else
-                DialogResult = false;
-            Close();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -58,5 +60,104 @@ namespace WPF_Project
         {
             DateTextBlock.Text = DateText;
         }
+    }
+
+    public class AddEventViewModel : IDataErrorInfo
+    {
+        private string _hour;
+        private string _minute;
+        private bool _hourErr;
+        private string _description;
+        private string _title;
+
+        public AddEventViewModel()
+        {
+            this.Minute = Convert.ToString(50);
+            this.Hour = Convert.ToString(12);
+        }
+
+        public bool HasErrors
+        {
+            get { return _hourErr; }         
+        }
+
+        public string Hour
+        {
+            get { return _hour; }
+            set {
+                _hourErr = false;
+                if (String.IsNullOrEmpty(value))
+                {
+                    _hourErr = true;
+                }
+                else
+                    if (Int32.Parse(value) > 24 || Int32.Parse(value) < 0)
+                    {
+                        _hourErr = true;
+                    }
+                _hour = value;
+            }
+        }
+
+        public string Minute
+        {
+            get { return _minute; }
+            set
+            {
+                _hourErr = false;
+                if (String.IsNullOrEmpty(value))
+                {
+                    _hourErr = true;
+                }
+                else
+                    if (Int32.Parse(value) > 60 || Int32.Parse(value) < 0)
+                    {
+                        _hourErr = true;
+                    }
+                _minute = value;
+            }
+        }
+
+        public string Description
+        {
+            get { return _description; }
+            set { 
+                _description = value;
+            }
+        }
+
+        public string Title
+        {
+            get { return _title; }
+            set { 
+                _title = value;
+                }
+        }
+
+        public string Error
+        {
+            get { return null; }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                switch(columnName)
+                {
+                    case "Hour":
+                        if (_hourErr)
+                            return "Wprowadź prawidłową godzinę!";
+                        break;
+
+                    case "Minute":
+                        if (_hourErr)
+                            return "Wprowadź prawidłową godzinę!";
+                        break;
+                }
+                return string.Empty;
+            }
+        }
+
     }
 }

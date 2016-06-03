@@ -379,7 +379,7 @@ namespace WPF_Project
                 dlg.DateText = day.date.ToShortDateString();
                 if (dlg.ShowDialog() == true)
                 {
-                    eventList.Add(new EventDay(day.date, dlg.TitleText, dlg.DescriptionText));
+                    eventList.Add(new EventDay(day.date, dlg.Time, dlg.TitleText, dlg.DescriptionText));
                     day.hasEvents = true;
                     dat.Items.Refresh();
                 }

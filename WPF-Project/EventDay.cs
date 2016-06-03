@@ -20,5 +20,15 @@ namespace WPF_Project
             this.name = name;
             this.description = description;
         }
+
+        public EventDay(DateTime date, TimeSpan time, string name, string description)
+        {
+            this.id = Guid.NewGuid().ToString();
+            this.date = date;
+            this.date = this.date.Add(time);
+            this.name = name;
+            this.description = description;
+        }
+
     }
 }
