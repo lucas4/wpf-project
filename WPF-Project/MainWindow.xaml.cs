@@ -529,9 +529,9 @@ namespace WPF_Project
                     else
                         MessageBox.Show("ERROR : File is empty!", "WPF-Calendar");
                 }
-                catch
+                catch(Exception ee)
                 {
-                    MessageBox.Show("ERROR : Wrong data!", "WPF-Calendar");
+                    MessageBox.Show("ERROR : Wrong data! Exception: "+ ee.Message, "WPF-Calendar");
                 }
             }
             this.Opacity = 1;

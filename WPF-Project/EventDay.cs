@@ -14,6 +14,8 @@ namespace WPF_Project
         public string name { get; set; }
         public string description { get; set; }
         public bool alertMade { get; set; }
+
+        public EventDay() { }
         
         public EventDay(DateTime date, string name, string description)
         {
